@@ -1,0 +1,17 @@
+version: '3'
+services:
+  devstroke:
+    env_file:
+      - .env
+    container_name: devstroke
+    image: 'salade2chats/angular:6.2.3'
+    tty: true
+    volumes:
+      - '.:/data'
+    working_dir: /data
+    user: $UID:$GID
+    expose:
+      - 4200
+    ports:
+      - 4800:4200
+

@@ -1,0 +1,36 @@
+<div class="main-container">
+  <div class="header" style="background: #faf;">
+    Dev Stroke
+  </div>
+  <div class="applications" style="background: #aaf;">
+    <app-search
+      [showSuggestion]="false"
+      (emitSuggestions)="updateList($event)"
+      (resetSearch)="resetList()"></app-search>
+    <div class="content" [class.full]="fullList">
+
+      <ng-container *ngIf="tools.length > 0; then showTools; else noTools"></ng-container>
+
+    </div>
+    <div *ngIf="listExpendable && !fullList" (click)="expandList()">Voir plus</div>
+  </div>
+</div>
+<div class="authors-container" style="background: #afa">
+  <div class="content">
+    SOME FACES HERE
+  </div>
+</div>
+
+<!-- Templates -->
+<ng-template #showTools>
+  <div class="tools">
+    <div class="tool" *ngFor="let tool of tools">
+      <div class="icon">Image</div>
+      <p class="title">{{ tool.title }}</p>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #noTools>
+  <!-- No tool found :/ -->
+</ng-template>

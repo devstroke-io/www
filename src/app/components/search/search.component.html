@@ -1,0 +1,6 @@
+<input (input)="updateSearch($event.target.value)">
+<div class="suggestions">
+  <ul *ngIf="suggestions.length > 0">
+    <li *ngFor="let suggestion of suggestions" [innerHTML]="'(' + suggestion.priority + ') ' + suggestion.tool.title"></li>
+  </ul>
+</div>

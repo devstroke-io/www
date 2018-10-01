@@ -1,3 +1,9 @@
-<p>
-  tool works!
-</p>
+<app-search
+    [showSuggestion]="true"
+    [autoFocus]="false"
+    [searchFocus]="true"
+></app-search>
+
+<!-- (emitSuggestions)="updateList($event)"-->
+<!-- (resetSearch)="resetList()" -->
+<router-outlet></router-outlet>

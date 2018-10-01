@@ -9,6 +9,11 @@
     // justify-content: space-around;
     flex-direction: column;
 
+    app-search {
+      margin: -20px auto 0 auto;
+      width: 60%;
+    }
+
     .content {
       max-width: 992px;
       width: 100%;
@@ -41,11 +46,15 @@
           margin: 5px;
           text-align: center;
           height: 189px;
+          background: magenta;
+          &.selected {
+            background: #ffaaff;
+          }
 
           .icon {
             flex: 0 0 75px;
             width: 75px;
-            background: #f0f;
+            // background: #f0f;
             align-self: center;
             justify-self: center;
             padding: 25px;

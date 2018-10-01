@@ -5,6 +5,8 @@
   <div class="applications" style="background: #aaf;">
     <app-search
       [showSuggestion]="false"
+      [autoFocus]="true"
+      [searchFocus]="true"
       (emitSuggestions)="updateList($event)"
       (resetSearch)="resetList()"></app-search>
     <div class="content" [class.full]="fullList">

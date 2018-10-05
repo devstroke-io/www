@@ -93,8 +93,4 @@ export class SearchComponent implements OnInit {
       this.suggestions = [];
     }
   }
-
-  public onTypeChars(char: string) {
-    console.log('CHAR', char);
-  }
 }

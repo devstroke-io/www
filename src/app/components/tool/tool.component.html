@@ -1,9 +1,13 @@
-<app-search
+<div class="main-container">
+  <app-search
     [showSuggestion]="true"
     [autoFocus]="false"
     [searchFocus]="true"
-></app-search>
+  ></app-search>
 
-<!-- (emitSuggestions)="updateList($event)"-->
-<!-- (resetSearch)="resetList()" -->
-<router-outlet></router-outlet>
+  <!-- (emitSuggestions)="updateList($event)"-->
+  <!-- (resetSearch)="resetList()" -->
+  <div class="content">
+    <router-outlet></router-outlet>
+  </div>
+</div>

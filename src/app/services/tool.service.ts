@@ -6,66 +6,66 @@ import {Tool} from '../models';
 })
 export class ToolService {
   private tools: Tool[] = [
-    new Tool(1, 'Base64 Encode/Decode', [
+    new Tool(1, 'Base64 Encode/Decode', 'base64-encode-decode', [
       'base64',
       'encode',
       'decode'
     ]),
-    new Tool(2, 'RegExp Tester', [
+    new Tool(2, 'RegExp Tester', 'regexp-tester', [
       'regexp',
       'regular',
       'expression',
       'tester'
     ]),
-    new Tool(3, 'JWT Debugger', [
+    new Tool(3, 'JWT Debugger', 'jwt-debugger', [
       'json',
       'web',
       'token',
       'debug',
       'decode'
     ]),
-    new Tool(4, 'cURL converter', [
+    new Tool(4, 'cURL converter', 'curl-converter', [
     ]),
-    new Tool(5, 'Base64 Encode/Decode', [
-      'base64',
-      'encode',
-      'decode'
-    ]),
-    new Tool(6, 'RegExp Tester', [
-      'regexp',
-      'regular',
-      'expression',
-      'tester'
-    ]),
-    new Tool(7, 'JWT Debugger', [
-      'json',
-      'web',
-      'token',
-      'debug',
-      'decode'
-    ]),
-    new Tool(8, 'cURL converter', [
-    ]),
-    new Tool(9, 'Base64 Encode/Decode', [
-      'base64',
-      'encode',
-      'decode'
-    ]),
-    new Tool(10, 'RegExp Tester', [
-      'regexp',
-      'regular',
-      'expression',
-      'tester'
-    ]),
-    new Tool(11, 'JWT Debugger', [
-      'json',
-      'web',
-      'token',
-      'debug',
-      'decode'
-    ]),
-    new Tool(12, 'cURL converter', [
-    ])
+    // new Tool(5, 'Base64 Encode/Decode', [
+    //   'base64',
+    //   'encode',
+    //   'decode'
+    // ]),
+    // new Tool(6, 'RegExp Tester', [
+    //   'regexp',
+    //   'regular',
+    //   'expression',
+    //   'tester'
+    // ]),
+    // new Tool(7, 'JWT Debugger', [
+    //   'json',
+    //   'web',
+    //   'token',
+    //   'debug',
+    //   'decode'
+    // ]),
+    // new Tool(8, 'cURL converter', [
+    // ]),
+    // new Tool(9, 'Base64 Encode/Decode', [
+    //   'base64',
+    //   'encode',
+    //   'decode'
+    // ]),
+    // new Tool(10, 'RegExp Tester', [
+    //   'regexp',
+    //   'regular',
+    //   'expression',
+    //   'tester'
+    // ]),
+    // new Tool(11, 'JWT Debugger', [
+    //   'json',
+    //   'web',
+    //   'token',
+    //   'debug',
+    //   'decode'
+    // ]),
+    // new Tool(12, 'cURL converter', [
+    // ])
   ];
 
   public constructor() {
@@ -121,5 +121,13 @@ export class ToolService {
     results.sort((a: any, b: any) => b.priority - a.priority);
 
     return results;
+  }
+
+  public getByUrl(url: string): Tool {
+    for (const tool of this.tools) {
+      if (tool.url === url) {
+        return tool;
+      }
+    }
   }
 }

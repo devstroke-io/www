@@ -1,0 +1,16 @@
+<div class="container">
+  <label>Encoded</label>
+  <textarea #encodedElement
+            placeholder="Base64 encoded"
+            (input)="updateEncoded($event)"
+            [ngModel]="encoded"></textarea>
+  <button *ngIf="copyEnabled" (click)="copyToClipboard(encodedElement)">Copy to clipboard</button>
+
+  <label>Decoded</label>
+  <p *ngIf="invalidEncoded" class="invalid">Base64 encoded string is invalid!</p>
+  <textarea #decodedElement
+            placeholder="Base64 decoded"
+            (input)="updateDecoded($event)"
+            [ngModel]="decoded"></textarea>
+  <button *ngIf="copyEnabled" (click)="copyToClipboard(decodedElement)">Copy to clipboard</button>
+</div>

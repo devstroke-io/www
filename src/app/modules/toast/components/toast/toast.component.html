@@ -1,0 +1,6 @@
+<ul>
+  <li *ngFor="let toast of toasts">
+    {{ toast.message }}
+    <button (click)="toast.onAction()">{{ toast.action }}</button>
+  </li>
+</ul>

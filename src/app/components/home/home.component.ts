@@ -1,6 +1,7 @@
-import {AfterViewInit, Component, ElementRef, EventEmitter, HostListener, OnInit, Output} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, HostListener, OnInit} from '@angular/core';
 import {Tool} from '../../models';
 import {ToolService} from '../../services';
+import {Router} from '@angular/router';
 
 const MAX_TOOLS: number = 8;
 
@@ -22,18 +23,18 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   /** @var {boolean} [listExpandable=true] True is tool list was expanded by user interaction */
   public manuallyExpanded: boolean = false;
-
   /** @var {HTMLElement} selectedTool Currently selected tool */
   private selectedTool;
 
-  public validateTool() {
-    console.log('valide');
+  constructor(private toolService: ToolService,
+              public router: Router,
+              private el: ElementRef) {
   }
 
-  @Output() onTypeChar: EventEmitter<any> = new EventEmitter();
-
-  constructor(private toolService: ToolService,
-              private el: ElementRef) { }
+  public validateTool() {
+    console.log(this.selectedTool);
+    this.selectedTool.click();
+  }
 
   public ngOnInit() {
     this.tools = [];
@@ -47,28 +48,40 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   public ngAfterViewInit() {
     const toolElements = this.getToolElements();
-    this.selectedTool = toolElements[0];
-    this.selectedTool.classList.add('selected');
+    this.selectTool(<HTMLElement>toolElements[0]);
   }
 
   public resetList() {
+    console.log('RESET');
     if (!this.manuallyExpanded) {
       this.fullList = false;
     }
-    // @TODO: duplicate code
-    this.listExpendable = this.tools.length > MAX_TOOLS;
     this.tools = [];
     const searchResults = this.toolService.findMostUsed();
     for (const result of searchResults) {
       this.tools.push(result.tool);
     }
+    // TODO: Little hack because after tools push, view is not instantly udpated
+    setTimeout(() => {
+      const toolElements = this.getToolElements();
+      this.selectTool(<HTMLElement>toolElements[0]);
+    }, 100);
+    // @TODO: duplicate code
+    this.listExpendable = this.tools.length > MAX_TOOLS;
   }
 
   public updateList(searchResults) {
+    console.log('UPDATE');
     this.tools = [];
     for (const result of searchResults) {
       this.tools.push(result.tool);
     }
+    // TODO: Little hack because after tools push, view is not instantly udpated
+    setTimeout(() => {
+      const toolElements = this.getToolElements();
+      this.selectTool(<HTMLElement>toolElements[0]);
+    }, 100);
+
     this.fullList = true;
   }
 
@@ -91,9 +104,13 @@ export class HomeComponent implements OnInit, AfterViewInit {
   private handleKeyboardEvent(event: KeyboardEvent): void {
     switch (event.key) {
       case 'ArrowDown':
+      case 'Down': // IE11
       case 'ArrowUp':
+      case 'Up': // IE11
       case 'ArrowLeft':
+      case 'Left': // IE11
       case 'ArrowRight':
+      case 'Right': // IE11
         event.preventDefault();
         this.moveAmongstTools(event.key);
         break;
@@ -152,7 +169,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
    * @param {'ArrowLeft' | 'ArrowRight' | 'ArrowDown' | 'ArrowUp'} direction
    * @returns void
    */
-  private moveAmongstTools(direction: 'ArrowLeft' | 'ArrowRight' | 'ArrowDown' | 'ArrowUp'): void {
+  private moveAmongstTools(
+    direction: 'ArrowLeft' | 'ArrowRight' | 'ArrowDown' | 'ArrowUp' /* IE11 => */ | 'Left' | 'Right' | 'Down' | 'Up'
+  ): void {
     const tools = this.getToolElements();
     if (tools.length === 0) {
       return;
@@ -160,7 +179,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     const toolIndex = Array.from(this.selectedTool.parentNode.children).indexOf(this.selectedTool),
       countElementsByLine = this.countElementsByLine();
     let nextIndex;
-    if (direction === 'ArrowLeft') {
+    if (direction === 'ArrowLeft' || direction === 'Left'/* IE11 */) {
       // @TODO: doesn't work as expected, doesn't take the line into consideration
       const currentLine = Math.ceil((toolIndex + 1) / countElementsByLine),
         borders = {
@@ -172,7 +191,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
         nextIndex = borders.max;
       }
     }
-    if (direction === 'ArrowRight') {
+    if (direction === 'ArrowRight' || direction === 'Right') {
       const currentLine = Math.ceil((toolIndex + 1) / countElementsByLine),
         borders = {
           min: (currentLine - 1) * countElementsByLine,
@@ -180,16 +199,16 @@ export class HomeComponent implements OnInit, AfterViewInit {
         };
       nextIndex = toolIndex + 1;
       if (nextIndex % countElementsByLine === 0) {
-        nextIndex = borders.min ;
+        nextIndex = borders.min;
       }
     }
-    if (direction === 'ArrowDown') {
+    if (direction === 'ArrowDown' || direction === 'Down') {
       nextIndex = toolIndex + countElementsByLine;
       if (tools.length - 1 < nextIndex) {
         nextIndex = nextIndex % countElementsByLine;
       }
     }
-    if (direction === 'ArrowUp') {
+    if (direction === 'ArrowUp' || direction === 'Up') {
       nextIndex = toolIndex - countElementsByLine;
       if (nextIndex < 0) {
         nextIndex = this.tools.length - (countElementsByLine - (toolIndex % countElementsByLine));

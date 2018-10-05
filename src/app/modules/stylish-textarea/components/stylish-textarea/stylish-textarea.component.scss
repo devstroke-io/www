@@ -1,0 +1,31 @@
+:host {
+  position: relative;
+
+  > textarea {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    border: 0;
+    caret-color: inherit;
+    color: transparent;
+    z-index: 20;
+    opacity: 1;
+    margin: 0;
+    padding: 0;
+    background: none;
+    white-space: pre-wrap;
+  }
+  > div {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    white-space: pre-wrap;
+    z-index: 15;
+    overflow: auto;
+    word-break: break-word;
+  }
+}

@@ -1,0 +1,72 @@
+<div style="display: flex;flex-direction: row;flex: 1;">
+  <app-stylish-textarea style="flex: 1 1 300px;background: white;margin: 20px;color: #000"
+                        [transformer]="transformer"
+                        (change)="onChange($event)"></app-stylish-textarea>
+  <div style="display: flex;flex-direction: column;flex: 1 1 300px;">
+    <div [innerHTML]="decodedHeader" style="background: white;flex: 1 1 300px;margin: 20px 20px 20px 0;"></div>
+    <div [innerHTML]="decodedPayload" style="background: white;flex: 1 1 300px;margin: 0 20px 20px 0;"></div>
+    <div [innerHTML]="decodedPayload" style="background: white;flex: 1 1 300px;margin: 0 20px 20px 0;"></div>
+  </div>
+</div>
+<div class="content" style="display: flex;flex-direction: row;flex-wrap: wrap;color: #fff">
+  <!--<div class="truc" style="position: relative;width: 600px;height: 300px;">-->
+    <!--<textarea id="test"-->
+              <!--[(ngModel)]="encoded"-->
+              <!--(ngModelChange)="onChangeEncoded($event)"-->
+              <!--(scroll)="scrollHandler($event)"-->
+              <!--style="border: 0;-->
+              <!--caret-color: white;-->
+    <!--color: transparent;-->
+    <!--position: absolute;-->
+    <!--top: 0;-->
+    <!--bottom: 0;-->
+    <!--width: 100%;-->
+    <!--z-index: 20;-->
+    <!--opacity: 1;-->
+    <!--margin: 0;-->
+    <!--padding: 0;-->
+    <!--background: none;"></textarea>-->
+    <!--<div id="div" style="white-space: pre-wrap;position: absolute;top: 0;bottom: 0;width: 100%;z-index: 15;margin: 0;padding: 0;overflow: auto;" contenteditable="true" [innerHTML]="colorizeEncoded"></div>-->
+  <!--</div>-->
+
+  <!--<div style="position: relative;flex: 1 1 300px;margin: 0 20px;display: flex;flex-direction: column;">-->
+    <!--<p>JWT</p>-->
+      <!--<ngx-codemirror-->
+        <!--style="position: relative;"-->
+        <!--[(ngModel)]="encoded"-->
+        <!--(ngModelChange)="onChangeEncoded($event)"-->
+        <!--[options]="{-->
+          <!--mode: 'jwt',-->
+          <!--lineWrapping: true-->
+        <!--}"-->
+      <!--&gt;</ngx-codemirror>-->
+  <!--</div>-->
+
+  <!--<div class="result" style="display: flex;flex-direction: column;flex: 1 1 300px;margin: 0 20px">-->
+    <!--<div class="header" style="position: relative;flex: 1 1 300px;display: flex;flex-direction: column;">-->
+      <!--<p>Header</p>-->
+      <!--<ngx-codemirror-->
+        <!--style="position: relative"-->
+        <!--[(ngModel)]="decodedHeader"-->
+        <!--(ngModelChange)="onChangeHeader($event)"-->
+        <!--[options]="{-->
+          <!--mode: 'javascript',-->
+          <!--lineWrapping: true-->
+        <!--}"-->
+      <!--&gt;</ngx-codemirror>-->
+    <!--</div>-->
+    <!--<div class="payload" style="position: relative;flex: 1 1 300px;display: flex;flex-direction: column;">-->
+      <!--<p>Payload</p>-->
+      <!--<ngx-codemirror-->
+        <!--style="position: relative"-->
+        <!--[(ngModel)]="decodedPayload"-->
+        <!--(ngModelChange)="onChangePayload($event)"-->
+        <!--[options]="{-->
+          <!--mode: 'javascript',-->
+          <!--lineWrapping: true-->
+        <!--}"-->
+      <!--&gt;</ngx-codemirror>-->
+    <!--</div>-->
+    <!--<div class="signature" style="position: relative;flex: 1 1 300px"></div>-->
+  <!--</div>-->
+</div>

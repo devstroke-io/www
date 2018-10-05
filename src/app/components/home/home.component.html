@@ -1,8 +1,8 @@
 <div class="main-container">
-  <div class="header" style="background: #faf;">
+  <div class="header" style="background: #ff9900;">
     Dev Stroke
   </div>
-  <div class="applications" style="background: #aaf;">
+  <div class="applications">
     <app-search
       [showSuggestion]="false"
       [autoFocus]="true"
@@ -17,7 +17,7 @@
     <div *ngIf="listExpendable && !fullList" (click)="expandList()">Voir plus</div>
   </div>
 </div>
-<div class="authors-container" style="background: #afa">
+<div class="authors-container" style="background: #a9b5bf">
   <div class="content">
     SOME FACES HERE
   </div>
@@ -26,7 +26,7 @@
 <!-- Templates -->
 <ng-template #showTools>
   <div class="tools">
-    <div class="tool" *ngFor="let tool of tools">
+    <div class="tool" *ngFor="let tool of tools" (click)="router.navigate(['/tool/' + tool.url]);">
       <div class="icon">Image</div>
       <p class="title">{{ tool.title }}</p>
     </div>

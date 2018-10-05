@@ -1,0 +1,25 @@
+<textarea [(ngModel)]="fieldValue"
+          (ngModelChange)="onChange($event)"
+          (blur)="onBlur()"
+          (focus)="onFocus()"
+          (scroll)="onScroll()"
+          (change)="onBrowserChange($event)"></textarea>
+<div [innerHTML]="fakeFieldValue"></div>
+
+<!--<textarea id="test"-->
+          <!--[(ngModel)]="encoded"-->
+          <!--(ngModelChange)="onChangeEncoded($event)"-->
+          <!--(scroll)="scrollHandler($event)"-->
+          <!--style="border: 0;-->
+              <!--caret-color: white;-->
+    <!--color: transparent;-->
+    <!--position: absolute;-->
+    <!--top: 0;-->
+    <!--bottom: 0;-->
+    <!--width: 100%;-->
+    <!--z-index: 20;-->
+    <!--opacity: 1;-->
+    <!--margin: 0;-->
+    <!--padding: 0;-->
+    <!--background: none;"></textarea>-->
+<!--<div id="div" style="white-space: pre-wrap;position: absolute;top: 0;bottom: 0;width: 100%;z-index: 15;margin: 0;padding: 0;overflow: auto;" contenteditable="true" [innerHTML]="colorizeEncoded"></div>-->

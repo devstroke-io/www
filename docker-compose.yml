@@ -1,17 +1,40 @@
 version: '3'
 services:
-  devstroke:
+  devstroke_dev:
+    container_name: devstroke_dev
     env_file:
-      - .env
-    container_name: devstroke
-    image: 'salade2chats/angular:6.2.3'
+    - .env
+    image: 'devstroke-dev'
+    build:
+      context: .
+      dockerfile: 'docker/Dockerfile.dev'
+      args:
+        UID: $UID
+        GID: $GID
     tty: true
     volumes:
-      - '.:/data'
-    working_dir: /data
-    user: $UID:$GID
-    expose:
-      - 4200
+    - '.:/home/node/app'
     ports:
-      - 4800:4200
-
+    - 4800:4200
+    user: node
+    command: 'sh -c "pwd && ls -alh . && yarn install && yarn run start --host 0.0.0.0 --disable-host-check"'
+  devstroke_one:
+    container_name: devstroke_one
+    env_file:
+    - .env
+    image: 'devstroke:$TAG'
+    build:
+      context: .
+      dockerfile: 'docker/Dockerfile.prod'
+    ports:
+    - 4810:80
+  devstroke_two:
+    container_name: devstroke_two
+    env_file:
+    - .env
+    image: 'devstroke'
+    build:
+      context: .
+      dockerfile: 'docker/Dockerfile.prod'
+    ports:
+    - 4820:80

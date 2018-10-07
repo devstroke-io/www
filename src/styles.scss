@@ -1,16 +1,13 @@
-@import "~codemirror/lib/codemirror.css";
-.CodeMirror {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-}
 /* You can add global styles to this file, and also import other style files */
+@font-face {
+  font-family: 'Happy';
+  src: url('assets/fonts/Happy-HappyJoyJoy.woff2') format('woff2'),
+  url('assets/fonts/Happy-HappyJoyJoy.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
 html, body {
   height: 100%;
   background: #2a2e31;
-}
-.white {
-  color: #fff;
 }

@@ -1,0 +1,22 @@
+FROM node:10-alpine
+
+ARG ANGULAR_VERSION=v7.0.0-rc.2
+ARG UID=1000
+ARG GID=1000
+
+# change node user UID/GID
+RUN if [ "$UID" != "$(id -u node)" ] ; then \
+  deluser --remove-home node \
+  && addgroup -S node -g $GID \
+  && adduser -S -G node -u $UID node; \
+fi
+
+# add Angular CLI and config
+RUN yarn global add @angular/cli@${ANGULAR_VERSION} \
+  && ng config --global cli.packageManager yarn
+
+VOLUME /home/node/app
+
+WORKDIR /home/node/app
+
+EXPOSE 4200

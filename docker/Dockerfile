@@ -34,8 +34,18 @@ RUN yarn run build --prod
 # DEV STAGE
 FROM test-stage AS dev-stage
 
+ARG UID=1000
+ARG GID=1000
+
+# change node user UID/GID
+RUN if [ "$UID" != "$(id -u node)" ] ; then \
+  deluser --remove-home node \
+  && addgroup -S node -g $GID \
+  && adduser -S -G node -u $UID node; \
+fi
+
 VOLUME /app
-RUN yarn run build --prod
+
 EXPOSE 4200
 
 

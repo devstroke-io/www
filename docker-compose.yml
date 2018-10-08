@@ -25,7 +25,7 @@ services:
     image: 'devstroke:$TAG'
     build:
       context: .
-      dockerfile: 'docker/Dockerfile.prod'
+      dockerfile: 'docker/Dockerfile'
     ports:
     - 4810:80
   devstroke_two:
@@ -35,6 +35,6 @@ services:
     image: 'devstroke'
     build:
       context: .
-      dockerfile: 'docker/Dockerfile.prod'
+      dockerfile: 'docker/Dockerfile'
     ports:
     - 4820:80

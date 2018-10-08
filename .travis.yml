@@ -1,0 +1,26 @@
+sudo: required
+
+os: linux
+
+cache: false
+
+language: node_js
+
+services:
+  - docker
+
+jobs:
+  include:
+
+  - stage: test
+    script:
+      - docker build --target test-stage --tag salade2chats/devstroke:test --file docker/Dockerfile .
+      - docker run --rm salade2chats/devstroke:test yarn run test:ci
+
+  - stage: build
+    if: tag IS present
+    script:
+      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      - docker build --target prod-stage --tag salade2chats/devstroke:$TRAVIS_TAG --file docker/Dockerfile .
+      - docker tag salade2chats/devstroke:$TRAVIS_TAG salade2chats/devstroke:latest
+      - docker push salade2chats/devstroke:$TRAVIS_TAG salade2chats/devstroke:latest

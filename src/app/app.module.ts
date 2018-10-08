@@ -4,7 +4,7 @@ import {NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
 import {HomeComponent} from './components/home/home.component';
 import {Base64ToolComponent, JwtDebuggerComponent, ToolComponent} from './components/tool';
-import {Routing} from './app.routing';
+import {AppRoutingModule} from './app.routing';
 import {SearchComponent} from './components/search/search.component';
 import {FormsModule} from '@angular/forms';
 import {ToastModule} from './modules/toast/toast.module';
@@ -22,7 +22,7 @@ import {StylishTextareaModule} from './modules/stylish-textarea/stylish-textarea
   imports: [
     BrowserModule,
     FormsModule,
-    Routing,
+    AppRoutingModule,
     ToastModule,
     StylishTextareaModule
   ],

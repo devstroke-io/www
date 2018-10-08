@@ -1,6 +1,7 @@
 import {RouterModule, Routes} from '@angular/router';
 import {HomeComponent} from './components/home/home.component';
 import {ToolComponent, Base64ToolComponent, JwtDebuggerComponent} from './components/tool';
+import {NgModule} from '@angular/core';
 
 const appRoutes: Routes = [
   {path: '', component: HomeComponent},
@@ -17,4 +18,8 @@ const appRoutes: Routes = [
   {path: '**', redirectTo: ''}
 ];
 
-export const Routing = RouterModule.forRoot(appRoutes);
+@NgModule({
+  imports: [ RouterModule.forRoot(appRoutes) ],
+  exports: [ RouterModule ]
+})
+export class AppRoutingModule {}

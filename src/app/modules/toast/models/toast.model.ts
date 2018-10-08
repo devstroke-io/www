@@ -18,7 +18,7 @@ export class Toast {
   }
 
   public start() {
-    this.timer = setTimeout(() => {
+    this.timer = window.setTimeout(() => {
       this.dismiss();
     }, this.delay);
   }

@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { JwtDebuggerComponent } from './jwt-debugger.component';
+import {StylishTextareaModule} from '../../../modules/stylish-textarea/stylish-textarea.module';
 
 describe('JwtDebuggerComponent', () => {
   let component: JwtDebuggerComponent;
@@ -8,7 +9,8 @@ describe('JwtDebuggerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ JwtDebuggerComponent ]
+      declarations: [ JwtDebuggerComponent ],
+      imports: [StylishTextareaModule]
     })
     .compileComponents();
   }));

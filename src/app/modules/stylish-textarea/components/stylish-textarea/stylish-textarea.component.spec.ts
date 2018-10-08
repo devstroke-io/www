@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { StylishTextareaComponent } from './stylish-textarea.component';
+import {FormsModule} from '@angular/forms';
 
 describe('StylishTextareaComponent', () => {
   let component: StylishTextareaComponent;
@@ -8,6 +9,7 @@ describe('StylishTextareaComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [FormsModule],
       declarations: [ StylishTextareaComponent ]
     })
     .compileComponents();

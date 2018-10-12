@@ -28,7 +28,7 @@ FROM prepare-stage AS build-stage
 
 COPY ./ /app/
 
-RUN yarn run build --prod
+RUN yarn run build --prod --subresource-integrity=true
 
 
 # DEV STAGE

@@ -9,15 +9,19 @@ export class StylishTextareaComponent implements OnInit {
 
   public fieldValue;
   public fakeFieldValue;
-  @Output() change: EventEmitter<string> = new EventEmitter();
-  @Output() focus: EventEmitter<void> = new EventEmitter();
-  @Output() blur: EventEmitter<void> = new EventEmitter();
-  @Input() transformer = value => value;
   public onBrowserChange = StylishTextareaComponent.onBrowserChange;
+  @Output() public change: EventEmitter<string> = new EventEmitter();
+  @Output() public focus: EventEmitter<void> = new EventEmitter();
+  @Output() public blur: EventEmitter<void> = new EventEmitter();
+  @Input() public transformer;
   private field: HTMLTextAreaElement;
   private fakeField: HTMLDivElement;
 
-  constructor(private el: ElementRef) {
+  public static onBrowserChange(event) {
+    event.stopPropagation();
+  }
+
+  public constructor(private el: ElementRef) {
   }
 
   get value() {
@@ -31,13 +35,12 @@ export class StylishTextareaComponent implements OnInit {
     }
   }
 
-  public static onBrowserChange(event) {
-    event.stopPropagation();
-  }
-
-  ngOnInit() {
+  public ngOnInit() {
     this.field = <HTMLTextAreaElement> this.el.nativeElement.querySelector('textarea');
     this.fakeField = <HTMLDivElement> this.el.nativeElement.querySelector('div');
+    if (!this.transformer) {
+      this.transformer = value => value;
+    }
   }
 
   public onChange(value) {

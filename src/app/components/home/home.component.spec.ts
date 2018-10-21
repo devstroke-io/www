@@ -3,6 +3,7 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {HomeComponent} from './home.component';
 import {SearchComponent} from '../search/search.component';
 import {RouterTestingModule} from '@angular/router/testing';
+import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
@@ -10,7 +11,10 @@ describe('HomeComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [
+        FontAwesomeModule,
+        RouterTestingModule
+      ],
       declarations: [HomeComponent, SearchComponent]
     })
       .compileComponents();

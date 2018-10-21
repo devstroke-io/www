@@ -1,6 +1,6 @@
 <div class="main-container">
-  <div class="header" style="background: #ff9900;">
-    <p style="font-family: 'Happy'">Dev Stroke</p>
+  <div class="header">
+    <p><span class="outline">DEV</span>STROKE</p>
   </div>
   <div class="applications">
     <app-search
@@ -17,9 +17,9 @@
     <div *ngIf="listExpendable && !fullList" (click)="expandList()">Voir plus</div>
   </div>
 </div>
-<div class="authors-container" style="background: #a9b5bf">
+<div class="authors-container" [ngClass]="environment.webP ? 'webp' : ''">
   <div class="content">
-    SOME FACES HERE
+    <p class="title">WHO ARE <span class="outline">THEY ?</span></p>
   </div>
 </div>
 

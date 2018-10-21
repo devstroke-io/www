@@ -2,6 +2,7 @@ import {AfterViewInit, Component, ElementRef, HostListener, OnInit} from '@angul
 import {Tool} from '../../models';
 import {ToolService} from '../../services';
 import {Router} from '@angular/router';
+import {environment} from '../../../environments/environment';
 
 const MAX_TOOLS: number = 8;
 
@@ -11,6 +12,8 @@ const MAX_TOOLS: number = 8;
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit, AfterViewInit {
+
+  public environment = environment;
 
   /** @var {Tool[]} tool List of tool available */
   public tools: Tool[] = [];

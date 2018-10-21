@@ -1,4 +1,5 @@
 import {Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output} from '@angular/core';
+import {IconDefinition, faSearch} from '@fortawesome/free-solid-svg-icons';
 import {ToolService} from '../../services';
 
 const QUERY_LENGTH_MIN = 3;
@@ -10,10 +11,8 @@ const QUERY_LENGTH_MIN = 3;
 })
 export class SearchComponent implements OnInit {
 
+  public faSearch: IconDefinition = faSearch;
   public suggestions: any[] = [];
-
-  private initialState: boolean = true;
-
   @Input() showSuggestion: boolean = false;
   // to enable auto focus on typing
   @Input() autoFocus: boolean = false;
@@ -21,6 +20,11 @@ export class SearchComponent implements OnInit {
   @Input() searchFocus: boolean = false;
   @Output() emitSuggestions: EventEmitter<any> = new EventEmitter();
   @Output() resetSearch: EventEmitter<any> = new EventEmitter();
+  private initialState: boolean = true;
+
+  constructor(private toolService: ToolService,
+              private el: ElementRef) {
+  }
 
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
@@ -67,10 +71,6 @@ export class SearchComponent implements OnInit {
       console.log(event.shiftKey, event.ctrlKey, event.key, event.char, event.charCode, event);
       this.el.nativeElement.querySelector('input').focus();
     }
-  }
-
-  constructor(private toolService: ToolService,
-              private el: ElementRef) {
   }
 
   public ngOnInit() {

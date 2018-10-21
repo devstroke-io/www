@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
-@import "~prismjs/themes/prism.css";
-@import "~prismjs/plugins/line-numbers/prism-line-numbers.css";
+@import "../../node_modules/prismjs/themes/prism.css";
+@import "../../node_modules/prismjs/plugins/line-numbers/prism-line-numbers.css";
 
 pre[class*="language-"] {
   white-space: pre-wrap;
@@ -15,13 +15,15 @@ pre[class*="language-"].line-numbers > code {
 
 @font-face {
   font-family: 'Happy';
-  src: url('assets/fonts/Happy-HappyJoyJoy.woff2') format('woff2'),
-  url('assets/fonts/Happy-HappyJoyJoy.woff') format('woff');
+  font-display: block;
+  src: url('../assets/fonts/Happy-HappyJoyJoy.woff2') format('woff2'),
+  url('../assets/fonts/Happy-HappyJoyJoy.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }
 
 html, body {
   height: 100%;
-  background: #2a2e31;
+  // background: #2a2e31;
+  background: #ffffff;
 }

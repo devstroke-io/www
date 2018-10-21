@@ -1,5 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import {APP_INITIALIZER, NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
 import {HomeComponent} from './components/home/home.component';
 import {Base64ToolComponent, JwtDebuggerComponent, ToolComponent} from './components/tool';
@@ -10,6 +10,10 @@ import {ToastModule} from './modules/toast/toast.module';
 import {StylishTextareaModule} from './modules/stylish-textarea/stylish-textarea.module';
 import {DocsComponent} from './components/docs/docs.component';
 import {CodeModule} from './modules/code/code.module';
+import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import {ServiceWorkerModule} from '@angular/service-worker';
+import {environment} from '../environments/environment';
+import {AppLoadModule} from './modules/app-load/app-load.module';
 
 @NgModule({
   declarations: [
@@ -22,12 +26,15 @@ import {CodeModule} from './modules/code/code.module';
     DocsComponent
   ],
   imports: [
+    AppLoadModule,
     BrowserModule,
     FormsModule,
     AppRoutingModule,
+    FontAwesomeModule,
     ToastModule,
     StylishTextareaModule,
-    CodeModule
+    CodeModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production})
   ],
   providers: [],
   bootstrap: [AppComponent]

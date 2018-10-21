@@ -1,3 +1,5 @@
+@import '../../../styles/mixins';
+
 .main-container {
   display: flex;
   min-height: 100%;
@@ -10,10 +12,13 @@
     flex: 1 0 auto;
     // justify-content: space-around;
     flex-direction: column;
+    align-items: center;
 
     app-search {
-      margin: -20px auto 0 auto;
-      width: 60%;
+      width: 95%;
+      max-width: 740px;
+      align-content: center;
+      margin-top: -40px;
     }
 
     .content {
@@ -48,12 +53,13 @@
           margin: 5px;
           text-align: center;
           height: 189px;
-          color: #fff;
+          color: #000000;
           // background: #ff5722;
           &.selected {
             // background: #ffaaff;
             .icon {
-              background: radial-gradient(ellipse at 50% 50%, #ffd18c, #ff9900 100%);
+              background: #e4e4e4;
+              // background: radial-gradient(ellipse at 50% 50%, #ffd18c, #ff9900 100%);
             }
           }
 
@@ -64,7 +70,9 @@
             align-self: center;
             padding: 25px;
             box-sizing: content-box;
-            background: #ff9900;
+            // background: #ff9900;
+            background: #ffffff;
+            border: 1px #dddddd solid;
           }
           .title {
             flex: 0;
@@ -76,10 +84,61 @@
 }
 .header {
   // flex: 1 1 200px;
+  display: flex;
   flex: 0 1 300px;
+  align-items: center;
+  justify-content: center;
+  background: #000000;
+
+  p {
+    font-size: 6em;
+    color: #ff992a;
+    font-family: 'Happy', sans-serif;
+
+    span.outline {
+      color: #000000;
+      // @include text-outline(3px, #ff992a);
+      -webkit-text-stroke: 3px #ff992a;
+    }
+  }
 }
+@media all and (min-width: 960px) {
+  .header {
+    p {
+      font-size: 6em;
+    }
+  }
+}
+@media all and (max-width: 959px) {
+  .header {
+    p {
+      font-size: 10vw;
+    }
+  }
+}
+
 .authors-container {
   display: flex;
   /* flex-direction: column; */
   justify-content: space-around;
+  &.webp {
+    background: url('../../../assets/images/footer.webp') top center no-repeat;
+  }
+  &:not(.webp) {
+    background: url('../../../assets/images/footer.jpg') top center no-repeat;
+  }
+
+  .content {
+    p {
+      font-size: 6em;
+      color: #ff992a;
+      font-family: 'Happy', sans-serif;
+
+      span.outline {
+        color: #000000;
+        // @include text-outline(3px, #ff992a);
+        -webkit-text-stroke: 3px #ff992a;
+      }
+    }
+  }
 }

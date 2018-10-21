@@ -4,7 +4,8 @@
     "downlevelIteration": true,
     "outDir": "../out-tsc/app",
     "types": [
-      "dom-inputevent"
+      "dom-inputevent",
+      "es6-promise"
     ]
   },
   "exclude": [

@@ -1,0 +1,229 @@
+#!/bin/bash
+
+set -o nounset
+set -o errexit
+set -o pipefail
+set -o noclobber
+
+error() {
+  echo -ne "$(tput bold ; tput setaf 1)$@\n$(tput sgr0)" >&2
+}
+success() {
+  echo -ne "$(tput bold ; tput setaf 2)$@\n$(tput sgr0)"
+}
+warn() {
+  echo -ne "$(tput bold ; tput setaf 3)$@\n$(tput sgr0)"
+}
+info() {
+  echo -ne "$(tput bold)$@\n$(tput sgr0)"
+}
+
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do
+  DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null && pwd )"
+  SOURCE="$(readlink "$SOURCE")"
+  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
+done
+readonly SOURCE
+readonly DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null && pwd )"
+readonly FORMATS_WIDTH=(320 768 1280 1920)
+
+declare -A DPI
+DPI[LDPI]=0.75
+DPI[MDPI]=1
+DPI[HDPI]=1.5
+DPI[XHDPI]=2
+DPI[XXHDPI]=3
+DPI[XXXHDPI]=4
+
+readonly IMAGE_DIR="${DIR}/../src/assets/images"
+readonly REGEXP="^(.*)_(resize|crop)_(ldpi|mdpi|hdpi|xhdpi|xxhdpi|xxxhdpi)_(320|768|1280|1920).(png|jpg)$"
+
+readonly SCRIPT_NAME=`basename "$0"`;
+readonly VERSION="1.0.0";
+
+########################################
+## Signal handler for SIGINT
+## Returns:
+##   String
+########################################
+function main::interrupt_handler() {
+    warn "Interrupt by user (SIGINT)";
+    exit;
+}
+
+########################################
+## Signal handler for SIGTERM
+## Returns:
+##   String
+########################################
+function main::termination_handler() {
+    warn "Interrupt by user (SIGTERM)";
+    exit;
+}
+
+########################################
+## Signal handler for EXIT (clean or unclean)
+## Returns:
+##   String
+########################################
+function main::exit_handler() {
+    exit;
+}
+
+function main::version() {
+    info "${SCRIPT_NAME} version ${VERSION}\n"
+}
+
+function main::usage() {
+    info "Usage: ${SCRIPT_NAME} [options]\n"
+}
+
+function main::help() {
+    main::usage
+    printf "\n"
+    printf "Options:\n"
+    printf "  -v,\n"
+    printf "  -vv,\n"
+    printf "  -vvv, --verbose      Output verbosity\n"
+    printf "  -V, --version        Print version information and quit\n"
+    printf "  -h, --help           Show this usage information and quit\n"
+    exit 0;
+}
+
+function ceil() {
+  echo $1 | awk '{print ($0-int($0)>0)?int($0)+1:int($0)}';
+}
+
+function generate() {
+  local file=$1
+  local name=$2
+  local resize=$3
+  local dpi=$4
+  local format=$5
+  local extension=$6
+  local width=$7
+  local height=$8
+
+  for target_width in ${FORMATS_WIDTH[*]}
+  do
+    for target_dpi_name in "${!DPI[@]}"
+    do
+      filename="${name}_${resize,,}_${target_dpi_name,,}_${target_width}"
+      echo '------';
+      info "File to generate: ${filename}"
+
+      if [[ -f "${IMAGE_DIR}/${filename}" ]]; then
+        info "  already done";
+        continue;
+      fi
+
+      if [[ "$resize" == "RESIZE" ]]; then
+        info "   Go to resize";
+      elif [[ "$resize" == "CROP" ]]; then
+        local width_ratio=$(echo "scale=6; $width/$format" | bc)
+        info "   Go to crop ${width}/${format} (${width_ratio}) VS ${target_width}";
+        local new_width=$(ceil $(echo $target_width*$width_ratio | bc))
+        # echo "   Result: new width for same DPI = $new_width";
+        # echo "   Current DPI value: ${DPI[$dpi]}";
+        # echo "   Target DPI value: ${DPI[$target_dpi_name]}";
+        local dpi_ratio=$(echo "scale=2; ${DPI[$target_dpi_name]}/${DPI[$dpi]}" | bc)
+        local new_real_width_dpi_ratio=$(ceil $(echo $width*$dpi_ratio | bc))
+        local new_real_height_dpi_ratio=$(ceil $(echo $height*$dpi_ratio | bc))
+        local new_width_dpi=$(ceil $(echo $new_width*$dpi_ratio | bc))
+        # echo "   DPI ratio: $dpi_ratio"
+        info "   Result: new width for new DPI = $new_width_dpi";
+        if [[ $new_width_dpi -gt $width ]]; then
+          warn "Warning: new width superior to original width ($new_width_dpi VS $width)";
+          crop_from=$(ceil $(echo "scale=2; ($new_real_width_dpi_ratio - $new_width_dpi)/2" | bc))
+          echo "CROP FROM = $crop_from";
+          $DIR/cwebp -q 80 -o $IMAGE_DIR/tmp.webp -resize $new_real_width_dpi_ratio 0 -- $file
+          $DIR/cwebp -q 80 -o $IMAGE_DIR/$filename.webp -crop $crop_from 0 $new_width_dpi $new_real_height_dpi_ratio -- $IMAGE_DIR/tmp.webp
+          rm $IMAGE_DIR/tmp.webp
+          convert $file -resize ${new_real_width_dpi_ratio}x${new_real_height_dpi_ratio} $IMAGE_DIR/tmp.jpg
+          convert $IMAGE_DIR/tmp.jpg -crop ${new_width_dpi}x${new_real_height_dpi_ratio}+${crop_from}+0 -quality 60 $IMAGE_DIR/$filename.jpg
+          rm $IMAGE_DIR/tmp.jpg
+        else
+          crop_from=$(ceil $(echo "scale=2; ($width - $new_width_dpi)/2" | bc))
+          $DIR/cwebp -q 80 -o $IMAGE_DIR/$filename.webp -crop $crop_from 0 $new_width_dpi $height -- $file
+          convert $file -crop ${new_width_dpi}x${height}+${crop_from}+0 -quality 60 $IMAGE_DIR/$filename.jpg
+        fi
+      else
+        warn "   Unknown resize '${resize}'";
+      fi
+    done
+  done
+}
+
+########################################
+## Main method - start the program
+## Returns:
+##   String
+########################################
+function main::main() {
+    OPTIONS=vhV;
+    LONGOPTS=verbose,help,version;
+    VERBOSE=0;
+    PROJECTS=()
+    PROJECT=;
+    TAG=;
+    ! PARSED=$(getopt --options=$OPTIONS --longoptions=$LONGOPTS --name "$0" -- "$@");
+    if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
+        # e.g. return value is 1
+        #  then getopt has complained about wrong arguments to stdout
+        exit 2;
+    fi
+    eval set -- "$PARSED";
+
+    # Optional arguments
+    while true; do
+        case "$1" in
+            -v)
+                VERBOSE=$((VERBOSE+1));
+                shift;
+                ;;
+            --verbose)
+                VERBOSE=3;
+                shift;
+                ;;
+            -h|--help)
+                main::help;
+                exit 0;
+                ;;
+            -V|--version)
+                main::version;
+                exit 0;
+                ;;
+            --)
+                shift;
+                break;
+                ;;
+            *)
+                error "Programming error";
+                exit 3;
+                ;;
+        esac
+    done
+
+    for file in ${IMAGE_DIR}/original/*
+    do
+        if [[ -f $file && $(basename -- "$file") =~ $REGEXP ]]; then
+            name=${BASH_REMATCH[1]}
+            resize=${BASH_REMATCH[2]^^}
+            dpi=${BASH_REMATCH[3]^^}
+            format=${BASH_REMATCH[4]}
+            extension=${BASH_REMATCH[5]}
+            width=$(identify -format '%w' $file)
+            height=$(identify -format '%h' $file)
+            generate $file $name $resize $dpi $format $extension $width $height
+        fi
+    done
+
+}
+
+# catch signals and exit
+trap main::interrupt_handler INT
+trap main::termination_handler TERM
+trap main::exit_handler EXIT
+# start the main method
+main::main "$@"

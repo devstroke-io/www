@@ -1,5 +1,5 @@
 <fa-icon [icon]="faSearch"></fa-icon>
-<input (input)="updateSearch($event.target.value)">
+<input aria-label="Search" (input)="updateSearch($event.target.value)">
 <div class="suggestions">
   <ul *ngIf="suggestions.length > 0">
     <li *ngFor="let suggestion of suggestions" [innerHTML]="'(' + suggestion.priority + ') ' + suggestion.tool.title"></li>

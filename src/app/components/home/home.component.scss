@@ -91,28 +91,21 @@
   background: #000000;
 
   p {
-    font-size: 6em;
-    color: #ff992a;
-    font-family: 'Happy', sans-serif;
-
-    span.outline {
-      color: #000000;
-      // @include text-outline(3px, #ff992a);
-      -webkit-text-stroke: 3px #ff992a;
-    }
-  }
-}
-@media all and (min-width: 960px) {
-  .header {
-    p {
+    &.title {
       font-size: 6em;
-    }
-  }
-}
-@media all and (max-width: 959px) {
-  .header {
-    p {
-      font-size: 10vw;
+      color: #ff992a;
+      font-family: 'Happy', sans-serif;
+
+      @media screen and (max-width: 793px),
+      print and (max-width: 793px) {
+        font-size: 12.1vw;
+      }
+
+      span.outline {
+        color: #000000;
+        // @include text-outline(3px, #ff992a);
+        -webkit-text-stroke: 0.05em #ff992a;
+      }
     }
   }
 }
@@ -121,23 +114,31 @@
   display: flex;
   /* flex-direction: column; */
   justify-content: space-around;
-  &.webp {
-    background: url('../../../assets/images/footer.webp') top center no-repeat;
+  &.web-p {
+    @include backgroundImage('../../../assets/images/footer', 'webp');
   }
-  &:not(.webp) {
-    background: url('../../../assets/images/footer.jpg') top center no-repeat;
+  &:not(.web-p) {
+    @include backgroundImage('../../../assets/images/footer', 'jpg');
   }
+  background-size: cover;
 
   .content {
     p {
-      font-size: 6em;
-      color: #ff992a;
-      font-family: 'Happy', sans-serif;
+      &.title {
+        font-size: 6em;
+        color: #ff992a;
+        font-family: 'Happy', sans-serif;
 
-      span.outline {
-        color: #000000;
-        // @include text-outline(3px, #ff992a);
-        -webkit-text-stroke: 3px #ff992a;
+        @media screen and (max-width: 965px),
+        print and (max-width: 965px) {
+          font-size: 9.95vw;
+        }
+
+        span.outline {
+          color: #000000;
+          // @include text-outline(3px, #ff992a);
+          -webkit-text-stroke: 0.05em #ff992a;
+        }
       }
     }
   }

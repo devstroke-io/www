@@ -8,8 +8,7 @@ jobs:
   include:
   - stage: test
     script:
-    - docker build --target test-stage --tag salade2chats/devstroke:test --file docker/Dockerfile
-      .
+    - docker build --target test-stage --tag --pull salade2chats/devstroke:test --file docker/Dockerfile .
     - docker run --rm salade2chats/devstroke:test yarn run test:ci
   - stage: build
     if: tag IS present

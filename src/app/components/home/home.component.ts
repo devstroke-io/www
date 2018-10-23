@@ -3,6 +3,7 @@ import {Tool} from '../../models';
 import {ToolService} from '../../services';
 import {Router} from '@angular/router';
 import {environment} from '../../../environments/environment';
+import {Meta} from '@angular/platform-browser';
 
 const MAX_TOOLS: number = 8;
 
@@ -31,7 +32,13 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   constructor(private toolService: ToolService,
               public router: Router,
-              private el: ElementRef) {
+              private el: ElementRef,
+              private meta: Meta) {
+    this.meta.addTags([
+      {name: 'description', content: 'DevStroke, some tools to help developpers'},
+      {name: 'author', content: 'Damien JARRY'},
+      {name: 'keywords', content: 'devstroke,developper,help,sidekick'}
+    ]);
   }
 
   public validateTool() {

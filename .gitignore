@@ -40,4 +40,5 @@ Thumbs.db
 
 # Environment files
 .env
-
+travis/deploy_key
+travis/deploy_key.pub

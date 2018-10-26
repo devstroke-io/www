@@ -8,17 +8,17 @@ jobs:
   include:
   - stage: test
     script:
-    - docker build --target test-stage --pull --tag salade2chats/devstroke:test --file docker/Dockerfile .
-    - docker run --rm salade2chats/devstroke:test yarn run test:ci
+    - docker build --target test-stage --pull --tag devstroke/www:test --file docker/Dockerfile .
+    - docker run --rm devstroke/www:test yarn run test:ci
   - stage: build
     if: tag IS present
     script:
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-    - docker build --target prod-stage --tag salade2chats/devstroke:$TRAVIS_TAG --file
+    - docker build --target prod-stage --tag devstroke/www:$TRAVIS_TAG --file
       docker/Dockerfile .
-    - docker tag salade2chats/devstroke:$TRAVIS_TAG salade2chats/devstroke:latest
-    - docker push salade2chats/devstroke:$TRAVIS_TAG
-    - docker push salade2chats/devstroke:latest
+    - docker tag devstroke/www:$TRAVIS_TAG devstroke/www:latest
+    - docker push devstroke/www:$TRAVIS_TAG
+    - docker push devstroke/www:latest
     - ssh -ti /tmp/deploy_key devstroke@devstroke.io $TRAVIS_TAG
 before_install:
 - openssl aes-256-cbc -K $encrypted_e2cce3309739_key -iv $encrypted_e2cce3309739_iv

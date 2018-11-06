@@ -21,6 +21,18 @@ export class SearchComponent implements OnInit {
   @Output() emitSuggestions: EventEmitter<any> = new EventEmitter();
   @Output() resetSearch: EventEmitter<any> = new EventEmitter();
   private initialState: boolean = true;
+  private nonPrintableChars: string[] = [
+    'ArrowDown',
+    'ArrowUp',
+    'ArrowLeft',
+    'ArrowRight',
+    'Shift',
+    'Control',
+    'Alt',
+    'Escape', // @TODO: do something on escape ?
+    'Enter', // @TODO: do something on enter ?
+    'Tab', // @TODO: do something on tab ?
+  ];
 
   constructor(private toolService: ToolService,
               private el: ElementRef) {
@@ -29,45 +41,23 @@ export class SearchComponent implements OnInit {
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
     // focus search input with F3 or ctrl+f
-    if (
-      this.searchFocus
-      && (
-        (event.key === 'f' && event.ctrlKey === true)
-        || event.key === 'F3'
-      )
-    ) {
-      event.preventDefault();
-      this.el.nativeElement.querySelector('input').focus();
+    if (this.searchFocus && ((event.key === 'f' && event.ctrlKey === true) || event.key === 'F3')) {
+      return this.handleCtrlF(event);
     }
     // if autoFocus disabled of combo ctrl+shift, abort
     if (!this.autoFocus || (event.shiftKey && event.ctrlKey)) {
-      console.log('No auto-focus or shift+ctrl');
       return;
     }
     // focus search input and select all with ctrl+a
     if (event.key === 'a' && event.ctrlKey) {
-      event.preventDefault();
-      this.el.nativeElement.querySelector('input').focus();
-      this.el.nativeElement.querySelector('input').select();
+      return this.handleCtrlA(event);
     }
     // if another combo with ctrl, abort
     if (event.ctrlKey) {
       return;
     }
-
-    // @TODO: check printable characters only
-    if (![
-      'ArrowDown',
-      'ArrowUp',
-      'ArrowLeft',
-      'ArrowRight',
-      'Shift',
-      'Control',
-      'Alt',
-      'Escape', // @TODO: do something on escape ?
-      'Enter', // @TODO: do something on enter ?
-      'Tab', // @TODO: do something on tab ?
-    ].includes(event.key)) {
+    // only treat printable chars
+    if (!this.nonPrintableChars.includes(event.key)) {
       console.log(event.shiftKey, event.ctrlKey, event.key, event.char, event.charCode, event);
       this.el.nativeElement.querySelector('input').focus();
     }
@@ -92,5 +82,18 @@ export class SearchComponent implements OnInit {
       this.initialState = true;
       this.suggestions = [];
     }
+  }
+
+  private handleCtrlA(event: KeyboardEvent): void {
+    event.preventDefault();
+    const searchField: HTMLInputElement = this.el.nativeElement.querySelector('input');
+    searchField.focus();
+    searchField.select();
+  }
+
+  private handleCtrlF(event: KeyboardEvent): void {
+    event.preventDefault();
+    const searchField: HTMLInputElement = this.el.nativeElement.querySelector('input');
+    searchField.focus();
   }
 }

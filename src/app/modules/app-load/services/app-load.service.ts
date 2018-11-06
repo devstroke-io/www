@@ -10,24 +10,23 @@ export class AppLoadService {
   constructor() { }
 
   initializeApp(): Promise<any> {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       console.log(`initializeApp:: inside promise`);
-      if (typeof Image !== 'undefined') {
-        const webP = new Image();
-        webP.onload = () => {
-          console.log(`initializeApp:: WebP support: true`);
-          environment.webP = true;
-          resolve();
-        };
-        webP.onerror = () => {
-          console.log(`initializeApp:: WebP support: false`);
-          resolve();
-        };
-        webP.src = 'data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';
-      } else {
-        console.log(`initializeApp:: WebP support: cannot detect (undefined Image)`);
+      if (typeof Image === 'undefined') {
         resolve();
+        return;
       }
+      const webP = new Image();
+      webP.onload = () => {
+        console.log(`initializeApp:: WebP support: true`);
+        environment.webP = true;
+        resolve();
+      };
+      webP.onerror = () => {
+        console.log(`initializeApp:: WebP support: false`);
+        resolve();
+      };
+      webP.src = 'data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';
     });
   }
 }

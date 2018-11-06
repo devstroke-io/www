@@ -1,6 +1,13 @@
 import {Injectable} from '@angular/core';
 import {Toast} from '../models/toast.model';
 
+export interface PushData {
+  message: string;
+  action?: string;
+  delay?: number;
+  data?: any;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -13,26 +20,30 @@ export class ToastService {
 
   /**
    * Add a toast in the list
-   * @param {string} message
-   * @param {string} [action=null]
-   * @param {number} [delay=2000]
-   * @param {any} [data=null]
+   * @param {PushData} data
    */
-  public push(message: string, action: string = null, delay: number = 2000, data: any = null) {
+  public push(data: PushData) {
+    if (!data.delay) {
+      data.delay = 2000;
+    }
     const toast = new Toast();
     this.toasts.push(toast);
-    toast.message = message;
-    toast.action = action;
-    toast.delay = delay;
-    toast.data = data;
+    toast.message = data.message;
+    toast.action = data.action;
+    toast.delay = data.delay;
+    toast.data = data.data;
     toast.onDismiss.subscribe(() => {
-      for (const [index, loopToast] of this.toasts.entries()) {
-        if (loopToast === toast) {
-          this.toasts.splice(index, 1);
-        }
-      }
+      this.dismissToast(toast);
     });
     toast.start();
     return toast;
+  }
+
+  private dismissToast(toast: Toast): void {
+    for (const [index, loopToast] of this.toasts.entries()) {
+      if (loopToast === toast) {
+        this.toasts.splice(index, 1);
+      }
+    }
   }
 }

@@ -7,7 +7,7 @@
       [showSuggestion]="false"
       [autoFocus]="true"
       [searchFocus]="true"
-      (emitSuggestions)="updateList($event)"
+      (emitSuggestions)="updateFromSearch($event)"
       (resetSearch)="resetList()"></app-search>
     <div class="content" [class.full]="fullList">
 
@@ -26,10 +26,10 @@
 <!-- Templates -->
 <ng-template #showTools>
   <div class="tools">
-    <div class="tool" *ngFor="let tool of tools" (click)="router.navigate(['/tool/' + tool.url]);">
+    <a class="tool" *ngFor="let tool of tools" [routerLink]="['/tool/' + tool.url]">
       <div class="icon">Image</div>
       <p class="title">{{ tool.title }}</p>
-    </div>
+    </a>
   </div>
 </ng-template>
 

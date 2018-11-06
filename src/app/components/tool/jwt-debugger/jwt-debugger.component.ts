@@ -16,7 +16,7 @@ export class JwtDebuggerComponent implements OnInit {
   constructor(private el: ElementRef, private sanitizer: DomSanitizer) {
   }
 
-  public static transformer(value) {
+  public static transformer(value: string): string {
     return value.replace(/</g, '&lt;').replace(/>/g, '&gt;')
       .replace(/\r\n|\r|\n/g, '<br>')
       .replace(
@@ -29,12 +29,17 @@ export class JwtDebuggerComponent implements OnInit {
   }
 
   public onChange(value) {
-    console.log('CHANGE', value);
     const parts = value.split('.');
     let header, payload, signature;
     parts.push(parts.splice(3 - 1).join('.'));
     [header, payload, signature] = parts;
     // decode header
+    this.decodeHeader(header);
+    // decode payload
+    this.decodePayload(payload);
+  }
+
+  private decodeHeader(header) {
     let decodeHeaderError = null;
     try {
       this.decodedHeader = atob(header);
@@ -51,7 +56,9 @@ export class JwtDebuggerComponent implements OnInit {
     if (this.decodedHeader) {
       this.decodedHeader = JSON.stringify(this.decodedHeader, null, '  ');
     }
-    // decode payload
+  }
+
+  private decodePayload(payload) {
     let decodePayloadError = null;
     try {
       this.decodedPayload = atob(payload);

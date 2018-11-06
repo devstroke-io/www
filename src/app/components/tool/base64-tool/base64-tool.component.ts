@@ -16,6 +16,21 @@ export class Base64ToolComponent implements OnInit {
 
   public invalidEncoded: boolean = false;
 
+  private toasts = {
+    empty: {
+      message: 'Nothing to copy !',
+      action: 'Busted'
+    },
+    success: {
+      message: 'Successful copy to clipboard',
+      action: 'Yeepee'
+    },
+    fail: {
+      message: 'Failed copy to clipboard',
+      action: 'Sigh...'
+    }
+  };
+
   constructor(private toastService: ToastService) { }
 
   ngOnInit() {
@@ -40,15 +55,25 @@ export class Base64ToolComponent implements OnInit {
 
   public copyToClipboard(element: HTMLInputElement) {
     if (!element.value) {
-      this.toastService.push('Nothing to copy !', 'Busted', 3000, {some: element.value});
+      this.toast('empty');
       return;
     }
     try {
       element.select();
       document.execCommand('copy');
-      this.toastService.push('Successful copy to clipboard', 'Yeepee', 3000, {some: element.value});
+      this.toast('success');
     } catch (error) {
-      this.toastService.push('Failed copy to clipboard', 'Sigh...', 3000, {some: element.value});
+      this.toast('fail');
+    }
+  }
+
+  private toast(type) {
+    if (type in Object.keys(this.toasts)) {
+      this.toastService.push({
+        message: this.toasts[type].message,
+        action: this.toasts[type].action,
+        delay: 3000
+      });
     }
   }
 }

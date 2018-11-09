@@ -1,7 +1,43 @@
+<!--<img src="../../../assets/images/devstroke_filled_with_color_mouse_opti.svg"
+     style="
+      position: absolute;
+      margin-top: -179px;
+      margin-left: -97px;
+      width: 200px
+"/>
+      &:after {
+        content: '<div></div>';
+        display: block;
+        background: url('../../../assets/images/devstroke_filled_with_color_mouse_opti.svg') 0 0;
+        background-size: cover;
+        position: absolute;
+
+        margin-top: -258px;
+        margin-left: -97px;
+
+        margin-top: -207px;
+        margin-left: -68px;
+
+        transform: translate3d(-100%, 0, 0);
+
+        // width: 200px;
+        min-width: 140px;
+        min-height: 150px;
+
+        max-width: 200px;
+        max-height: 214px; // 1.07
+
+        width: 33vw;
+        height: 36vw;
+      }
+-->
 <fa-icon [icon]="faSearch"></fa-icon>
 <input aria-label="Search" (input)="updateSearch($event.target.value)">
 <div class="suggestions">
   <ul *ngIf="suggestions.length > 0">
     <li *ngFor="let suggestion of suggestions" [innerHTML]="'(' + suggestion.priority + ') ' + suggestion.tool.title"></li>
   </ul>
+</div>
+<div class="img-container" *ngIf="showLogo">
+  <img src="../../../assets/images/devstroke_filled_with_color_mouse_opti.svg">
 </div>

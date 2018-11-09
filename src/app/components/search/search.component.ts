@@ -13,6 +13,7 @@ export class SearchComponent implements OnInit {
 
   public faSearch: IconDefinition = faSearch;
   public suggestions: any[] = [];
+  @Input() showLogo: boolean = false;
   @Input() showSuggestion: boolean = false;
   // to enable auto focus on typing
   @Input() autoFocus: boolean = false;

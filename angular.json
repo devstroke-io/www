@@ -27,7 +27,8 @@
               "src/assets",
               "src/manifest.json",
               "src/robots.txt",
-              "src/sitemap.xml"
+              "src/sitemap.xml",
+              "src/browserconfig.xml"
             ],
             "styles": [
               "src/styles/reboot.scss",
@@ -90,7 +91,8 @@
               "src/assets",
               "src/manifest.json",
               "src/robots.txt",
-              "src/sitemap.xml"
+              "src/sitemap.xml",
+              "src/browserconfig.xml"
             ]
           }
         },

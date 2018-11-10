@@ -22,10 +22,10 @@ const projectConfig = {
   },
   coverageIstanbulReporter: {
     dir: require('path').join(__dirname, '../coverage'),
-    reports: ['html', 'lcovonly'],
+    reports: ['lcovonly', 'text-summary', 'text'],
     fixWebpackSourcePaths: true
   },
-  reporters: ['progress', 'kjhtml'],
+  reporters: ['progress', 'coverage-istanbul'],
   port: 9876,
   colors: true,
   autoWatch: true,

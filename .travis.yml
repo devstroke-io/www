@@ -25,8 +25,8 @@ before_install:
   -in travis/deploy_key.enc -out /tmp/deploy_key -d
 - chmod 600 /tmp/deploy_key
 after_success:
-- docker exec -e COVERALLS_REPO_TOKEN="$COVERALLS_REPO_TOKEN" -e TRAVIS_JOB_ID="$TRAVIS_JOB_ID"
-  -e TRAVIS_BRANCH="$TRAVIS_BRANCH" test_ci yarn run coveralls
+- docker exec -e COVERALLS_REPO_TOKEN="$COVERALLS_REPO_TOKEN" -e TRAVIS="$TRAVIS" -e TRAVIS_JOB_ID="$TRAVIS_JOB_ID"
+  -e TRAVIS_BRANCH="$TRAVIS_BRANCH" -e TRAVIS_PULL_REQUEST="$TRAVIS_PULL_REQUEST" test_ci yarn run coveralls
 addons:
   ssh_known_hosts:
   - devstroke.io

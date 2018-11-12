@@ -155,6 +155,14 @@ describe('SearchComponent', () => {
 
     component.autoFocus = true;
     output = component.handleKeyboardEvent(new KeyboardEvent('keydown', {
+      'key': 'f',
+      'ctrlKey': true,
+      'shiftKey': true
+    }));
+    expect(output).toBe(undefined);
+
+    component.autoFocus = true;
+    output = component.handleKeyboardEvent(new KeyboardEvent('keydown', {
       'key': 'z',
       'ctrlKey': true
     }));

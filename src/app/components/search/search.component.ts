@@ -42,7 +42,7 @@ export class SearchComponent implements OnInit {
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
     // focus search input with F3 or ctrl+f
-    if (this.searchFocus && ((event.key === 'f' && event.ctrlKey === true) || event.key === 'F3')) {
+    if (this.searchFocus && ((event.key === 'f' && event.shiftKey === false && event.ctrlKey === true) || event.key === 'F3')) {
       return this.handleCtrlF(event);
     }
     // if autoFocus disabled of combo ctrl+shift, abort

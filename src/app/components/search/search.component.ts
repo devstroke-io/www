@@ -59,8 +59,7 @@ export class SearchComponent implements OnInit {
     }
     // only treat printable chars
     if (!this.nonPrintableChars.includes(event.key)) {
-      console.log(event.shiftKey, event.ctrlKey, event.key, event.char, event.charCode, event);
-      this.el.nativeElement.querySelector('input').focus();
+      (<HTMLInputElement>this.el.nativeElement.querySelector('input')).focus();
     }
   }
 

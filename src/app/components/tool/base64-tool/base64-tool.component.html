@@ -3,7 +3,7 @@
   <textarea #encodedElement
             placeholder="Base64 encoded"
             (input)="updateEncoded($event)"
-            [ngModel]="encoded"></textarea>
+            [(ngModel)]="encoded"></textarea>
   <button *ngIf="copyEnabled" (click)="copyToClipboard(encodedElement)">Copy to clipboard</button>
 
   <label>Decoded</label>
@@ -11,6 +11,6 @@
   <textarea #decodedElement
             placeholder="Base64 decoded"
             (input)="updateDecoded($event)"
-            [ngModel]="decoded"></textarea>
+            [(ngModel)]="decoded"></textarea>
   <button *ngIf="copyEnabled" (click)="copyToClipboard(decodedElement)">Copy to clipboard</button>
 </div>

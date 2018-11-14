@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Inject, Injectable} from '@angular/core';
 import {Promise} from 'es6-promise';
 import {environment} from '../../../../environments/environment';
 
@@ -7,24 +7,29 @@ import {environment} from '../../../../environments/environment';
 })
 export class AppLoadService {
 
-  constructor() { }
+  private readonly image;
+
+  constructor(@Inject('Image') image: typeof Image) {
+    this.image = image;
+  }
 
   initializeApp(): Promise<any> {
     return new Promise((resolve) => {
       console.log(`initializeApp:: inside promise`);
-      if (typeof Image === 'undefined') {
-        resolve();
+      if (typeof this.image === 'undefined') {
+        console.log(`initializeApp:: Image undefined`);
+        resolve(false);
         return;
       }
-      const webP = new Image();
+      const webP = new this.image();
       webP.onload = () => {
         console.log(`initializeApp:: WebP support: true`);
         environment.webP = true;
-        resolve();
+        resolve(true);
       };
       webP.onerror = () => {
         console.log(`initializeApp:: WebP support: false`);
-        resolve();
+        resolve(false);
       };
       webP.src = 'data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';
     });

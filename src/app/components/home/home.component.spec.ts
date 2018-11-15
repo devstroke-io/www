@@ -4,6 +4,8 @@ import {HomeComponent} from './home.component';
 import {SearchComponent} from '../search/search.component';
 import {RouterTestingModule} from '@angular/router/testing';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import {By} from '@angular/platform-browser';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
@@ -13,7 +15,8 @@ describe('HomeComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         FontAwesomeModule,
-        RouterTestingModule
+        RouterTestingModule,
+        HttpClientTestingModule
       ],
       declarations: [HomeComponent, SearchComponent]
     })

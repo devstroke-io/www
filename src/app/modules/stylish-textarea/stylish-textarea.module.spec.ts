@@ -1,4 +1,4 @@
-import { StylishTextareaModule } from './stylish-textarea.module';
+import {StylishTextareaModule} from './stylish-textarea.module';
 
 describe('StylishTextareaModule', () => {
   let stylishTextareaModule: StylishTextareaModule;

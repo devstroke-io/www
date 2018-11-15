@@ -4,6 +4,7 @@ import {ToolComponent} from './tool.component';
 import {SearchComponent} from '../search/search.component';
 import {RouterTestingModule} from '@angular/router/testing';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 
 describe('ToolComponent', () => {
   let component: ToolComponent;
@@ -13,7 +14,8 @@ describe('ToolComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         FontAwesomeModule,
-        RouterTestingModule
+        RouterTestingModule,
+        HttpClientTestingModule
       ],
       declarations: [ToolComponent, SearchComponent]
     })

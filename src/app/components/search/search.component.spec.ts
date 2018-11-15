@@ -6,22 +6,32 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {By} from '@angular/platform-browser';
 import {Tool} from '../../models';
 import {ToolService} from '../../services';
+import {Observable} from 'rxjs';
 
 class MockToolService {
-  findTools(query: string): any[] {
-    return query === 'existent' ? [
-      {priority: 10, tool: new Tool({id: 1, title: 'Base64 Encode/Decode', url: 'base64-encode-decode', keywords: [
-            'base64',
-            'encode',
-            'decode'
-          ]})},
-      {priority: 5, tool: new Tool({id: 2, title: 'RegExp Tester', url: 'regexp-tester', keywords: [
-            'regexp',
-            'regular',
-            'expression',
-            'tester'
-          ]})}
-    ] : [];
+  findTools(query: string): Observable<{ priority: number, tool: Tool }[]> {
+    return new Observable(observer => {
+      if (query === 'existent') {
+        observer.next([
+          {priority: 10, tool: new Tool({id: 1, title: 'Base64 Encode/Decode', url: 'base64-encode-decode', keywords: [
+                'base64',
+                'encode',
+                'decode'
+              ]})},
+          {priority: 5, tool: new Tool({id: 2, title: 'RegExp Tester', url: 'regexp-tester', keywords: [
+                'regexp',
+                'regular',
+                'expression',
+                'tester'
+              ]})}
+        ]);
+      } else if (query === 'error') {
+        observer.error('fakeError');
+      } else {
+        observer.next([]);
+      }
+      return {unsubscribe() {}};
+    });
   }
 }
 
@@ -199,5 +209,17 @@ describe('SearchComponent', () => {
     input.dispatchEvent(new Event('input'));
     fixture.detectChanges();
     expect(component.suggestions.length).toBe(0);
+  });
+
+  it ('should return an error', () => {
+    spyOn(console, 'log');
+    component.showSuggestion = true;
+    const input = fixture.debugElement.query(By.css('input')).nativeElement;
+
+    input.value = 'error';
+    input.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+
+    expect(console.log).toHaveBeenCalledWith('ERROR');
   });
 });

@@ -69,12 +69,17 @@ export class SearchComponent implements OnInit {
   public updateSearch(query) {
     if (query.length >= QUERY_LENGTH_MIN) {
       this.initialState = false;
-      const searchResults = this.toolService.findTools(query);
-      if (this.showSuggestion) {
-        this.suggestions = searchResults;
-      }
-      this.emitSuggestions.emit(searchResults);
-      return;
+      return this.toolService.findTools(query).subscribe({
+        next: results => {
+          if (this.showSuggestion) {
+            this.suggestions = results;
+          }
+          this.emitSuggestions.emit(results);
+        },
+        error: error => {
+          console.log('ERROR');
+        }
+      });
     }
 
     if (!this.initialState) {

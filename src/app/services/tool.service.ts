@@ -1,31 +1,18 @@
 import {Injectable} from '@angular/core';
-import {Tool} from '../models';
+import {Tool, ToolDefinition} from '../models';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
+
+const TOOLS_FILE = '/assets/tools.json';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ToolService {
-  private tools: Tool[] = [
-    new Tool({id: 1, title: 'Base64 Encode/Decode', url: 'base64-encode-decode', keywords: [
-      'base64',
-      'encode',
-      'decode'
-    ]}),
-    new Tool({id: 2, title: 'RegExp Tester', url: 'regexp-tester', keywords: [
-      'regexp',
-      'regular',
-      'expression',
-      'tester'
-    ]}),
-    new Tool({id: 3, title: 'JWT Debugger', url: 'jwt-debugger', keywords: [
-      'json',
-      'web',
-      'token',
-      'debug',
-      'decode'
-    ]}),
-    new Tool({id: 4, title: 'cURL converter', url: 'curl-converter', keywords: []})
-  ];
+  public tools: Tool[] = [];
+
+  constructor(private http: HttpClient) {
+  }
 
   private static getToolPriority(tool: Tool, queryWords: string[]): number {
     let priority = 0;
@@ -56,44 +43,91 @@ export class ToolService {
     return priority;
   }
 
-  public getAll(): Tool[] {
-    return this.tools;
-  }
-
-  public findMostUsed(): any[] {
-    // @TODO: implement this
-    const results = [];
-    for (const tool of this.tools) {
-      results.push({
-        priority: 10,
-        tool: tool
+  public loadTools(forceRefresh: boolean = false): Observable<Tool[]> {
+    return new Observable(observer => {
+      if (!forceRefresh && this.tools.length !== 0) {
+        observer.next(this.tools);
+        observer.complete();
+        return {
+          unsubscribe() {
+          }
+        };
+      }
+      const request = this.http.get(TOOLS_FILE).subscribe({
+        next: (data: ToolDefinition[]) => {
+          this.tools = [];
+          for (const rawTool of data) {
+            this.tools.push(new Tool(rawTool));
+          }
+          observer.next(this.tools);
+          observer.complete();
+        },
+        error: (error) => {
+          observer.error(error);
+        }
       });
-    }
-    results.sort((a: any, b: any) => b.priority - a.priority);
-
-    return results;
+      return {
+        unsubscribe() {
+          request.unsubscribe();
+        }
+      };
+    });
   }
 
-  public findTools(query: string): any[] {
-    const results = [],
-      queryWords = query.split(/\s+/).filter(n => n);
-
-    for (const tool of this.tools) {
-      const priority = ToolService.getToolPriority(tool, queryWords);
-      if (priority > 0) {
-        results.push({priority: priority, tool: tool});
-      }
-    }
-    results.sort((a: any, b: any) => b.priority - a.priority);
-
-    return results;
+  public findMostUsed(forceRefresh: boolean = false): Observable<{ priority: number, tool: Tool }[]> {
+    // @TODO: implement this
+    return new Observable(observer => {
+      const subscription = this.loadTools(forceRefresh).subscribe({
+        next: (data: Tool[]) => {
+          const results: { priority: number, tool: Tool }[] = [];
+          for (const tool of data) {
+            results.push({
+              priority: 10,
+              tool: tool
+            });
+          }
+          results.sort((a: any, b: any) => b.priority - a.priority);
+          observer.next(results);
+          observer.complete();
+        },
+        error: error => {
+          observer.error(error);
+        }
+      });
+      return {
+        unsubscribe() {
+          subscription.unsubscribe();
+        }
+      };
+    });
   }
 
-  public getByUrl(url: string): Tool {
-    for (const tool of this.tools) {
-      if (tool.url === url) {
-        return tool;
-      }
-    }
+  public findTools(query: string, forceRefresh: boolean = false): Observable<{ priority: number, tool: Tool }[]> {
+    return new Observable(observer => {
+      const subscription = this.loadTools(forceRefresh).subscribe({
+        next: (data: Tool[]) => {
+          const results: { priority: number, tool: Tool }[] = [],
+            queryWords = query.split(/\s+/).filter(n => n);
+
+          for (const tool of data) {
+            const priority = ToolService.getToolPriority(tool, queryWords);
+            if (priority > 0) {
+              results.push({priority: priority, tool: tool});
+            }
+          }
+          results.sort((a: any, b: any) => b.priority - a.priority);
+          observer.next(results);
+          observer.complete();
+        },
+        error: error => {
+          observer.error(error);
+        }
+      });
+      return {
+        unsubscribe() {
+          subscription.unsubscribe();
+        }
+      };
+    });
   }
 }

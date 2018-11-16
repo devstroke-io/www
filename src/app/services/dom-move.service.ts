@@ -9,7 +9,11 @@ export class DomMoveService {
     const countElementsByLine = DomMoveService.countElementsByLine(elements);
     let nextIndex = currentIndex - countElementsByLine;
     if (nextIndex < 0) {
-      nextIndex = elements.length - (countElementsByLine - (currentIndex % countElementsByLine));
+      const countColumns = Math.ceil(elements.length / countElementsByLine);
+      const firstIndexLastLine = countElementsByLine * (countColumns - 1);
+      const currentIndexLastLine = firstIndexLastLine + currentIndex;
+      const maxIndex = elements.length - 1;
+      nextIndex = Math.min(maxIndex, currentIndexLastLine);
     }
     return nextIndex;
   }

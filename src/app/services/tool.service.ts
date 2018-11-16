@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Tool, ToolDefinition} from '../models';
 import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {Observable, Subscriber, TeardownLogic} from 'rxjs';
 
 const TOOLS_FILE = '/assets/tools.json';
 
@@ -10,9 +10,6 @@ const TOOLS_FILE = '/assets/tools.json';
 })
 export class ToolService {
   public tools: Tool[] = [];
-
-  constructor(private http: HttpClient) {
-  }
 
   private static getToolPriority(tool: Tool, queryWords: string[]): number {
     let priority = 0;
@@ -69,34 +66,15 @@ export class ToolService {
     return results;
   }
 
+  constructor(private http: HttpClient) {
+  }
+
   public loadTools(forceRefresh: boolean = false): Observable<Tool[]> {
     return new Observable(observer => {
       if (!forceRefresh && this.tools.length !== 0) {
-        observer.next(this.tools);
-        observer.complete();
-        return {
-          unsubscribe() {
-          }
-        };
+        return this._loadToolsStatic(observer);
       }
-      const request = this.http.get(TOOLS_FILE).subscribe({
-        next: (data: ToolDefinition[]) => {
-          this.tools = [];
-          for (const rawTool of data) {
-            this.tools.push(new Tool(rawTool));
-          }
-          observer.next(this.tools);
-          observer.complete();
-        },
-        error: (error) => {
-          observer.error(error);
-        }
-      });
-      return {
-        unsubscribe() {
-          request.unsubscribe();
-        }
-      };
+      return this._loadToolsFresh(observer);
     });
   }
 
@@ -139,5 +117,35 @@ export class ToolService {
         }
       };
     });
+  }
+
+  private _loadToolsStatic(observer: Subscriber<Tool[]>): TeardownLogic {
+    observer.next(this.tools);
+    observer.complete();
+    return {
+      unsubscribe() {
+      }
+    };
+  }
+
+  private _loadToolsFresh(observer: Subscriber<Tool[]>): TeardownLogic {
+    const request = this.http.get(TOOLS_FILE).subscribe({
+      next: (data: ToolDefinition[]) => {
+        this.tools = [];
+        for (const rawTool of data) {
+          this.tools.push(new Tool(rawTool));
+        }
+        observer.next(this.tools);
+        observer.complete();
+      },
+      error: (error) => {
+        observer.error(error);
+      }
+    });
+    return {
+      unsubscribe() {
+        request.unsubscribe();
+      }
+    };
   }
 }

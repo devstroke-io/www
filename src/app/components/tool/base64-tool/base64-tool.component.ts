@@ -1,5 +1,18 @@
 import {Component, OnInit} from '@angular/core';
-import {ToastService} from '../../../modules/toast/services/toast.service';
+import {PushData, ToastService} from '../../../modules/toast/services/toast.service';
+
+const TOAST_EMPTY: PushData = {
+  message: 'Nothing to copy !',
+  action: 'Busted'
+};
+const TOAST_SUCCESS: PushData = {
+  message: 'Successful copy to clipboard',
+  action: 'Yeepee'
+};
+const TOAST_FAIL: PushData = {
+  message: 'Failed copy to clipboard',
+  action: 'Sigh...'
+};
 
 @Component({
   selector: 'app-base64-tool',
@@ -16,22 +29,8 @@ export class Base64ToolComponent implements OnInit {
 
   public invalidEncoded: boolean = false;
 
-  private toasts = {
-    empty: {
-      message: 'Nothing to copy !',
-      action: 'Busted'
-    },
-    success: {
-      message: 'Successful copy to clipboard',
-      action: 'Yeepee'
-    },
-    fail: {
-      message: 'Failed copy to clipboard',
-      action: 'Sigh...'
-    }
-  };
-
-  constructor(private toastService: ToastService) { }
+  constructor(private toastService: ToastService) {
+  }
 
   ngOnInit() {
     this.copyEnabled = document.queryCommandSupported('copy');
@@ -55,25 +54,23 @@ export class Base64ToolComponent implements OnInit {
 
   public copyToClipboard(element: HTMLInputElement) {
     if (!element.value) {
-      this.toast('empty');
+      this.toast(TOAST_EMPTY);
       return;
     }
     try {
       element.select();
       document.execCommand('copy');
-      this.toast('success');
+      this.toast(TOAST_SUCCESS);
     } catch (error) {
-      this.toast('fail');
+      this.toast(TOAST_FAIL);
     }
   }
 
-  private toast(type) {
-    if (type in Object.keys(this.toasts)) {
-      this.toastService.push({
-        message: this.toasts[type].message,
-        action: this.toasts[type].action,
-        delay: 3000
-      });
-    }
+  private toast(toast: PushData) {
+    this.toastService.push({
+      message: toast.message,
+      action: toast.action,
+      delay: 3000
+    });
   }
 }

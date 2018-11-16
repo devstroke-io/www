@@ -14,6 +14,7 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {ServiceWorkerModule} from '@angular/service-worker';
 import {environment} from '../environments/environment';
 import {AppLoadModule} from './modules/app-load/app-load.module';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import {AppLoadModule} from './modules/app-load/app-load.module';
   imports: [
     AppLoadModule,
     BrowserModule,
+    HttpClientModule,
     FormsModule,
     AppRoutingModule,
     FontAwesomeModule,

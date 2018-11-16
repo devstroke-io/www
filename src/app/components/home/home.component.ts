@@ -1,8 +1,9 @@
-import {AfterViewInit, Component, ElementRef, HostListener, OnInit} from '@angular/core';
+import {Component, ElementRef, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {Tool} from '../../models';
 import {DomMoveService, ToolService} from '../../services';
 import {environment} from '../../../environments/environment';
 import {Meta} from '@angular/platform-browser';
+import {Subscription} from 'rxjs';
 
 const MAX_TOOLS: number = 8;
 
@@ -11,7 +12,7 @@ const MAX_TOOLS: number = 8;
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit, AfterViewInit {
+export class HomeComponent implements OnInit, OnDestroy {
 
   private static arrows: {
     down: string[],
@@ -48,6 +49,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
   /** @var {HTMLElement} selectedTool Currently selected tool */
   private selectedTool;
 
+  private loadToolsSubscription: Subscription;
+
   constructor(private toolService: ToolService,
               private el: ElementRef,
               private meta: Meta) {
@@ -67,26 +70,36 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   public ngOnInit() {
-    const searchResults = this.toolService.findMostUsed();
-    this.updateToolsList(searchResults);
-    this.listExpendable = this.tools.length > MAX_TOOLS;
+    this.loadToolsSubscription = this.toolService.findMostUsed()
+      .subscribe({
+        error: error => {
+          console.log('ERROR', error);
+        },
+        next: tools => {
+          this.updateToolsList(tools);
+          this.listExpendable = this.tools.length > MAX_TOOLS;
+        }
+      });
     // @TODO: Remove keyboard event listener on destroy
   }
 
-  public ngAfterViewInit() {
-    const toolElements = this.getToolElements();
-    if (toolElements.length > 0) {
-      this.selectTool(<HTMLElement>toolElements[0]);
-    }
+  public ngOnDestroy() {
+    this.loadToolsSubscription.unsubscribe();
   }
 
   public resetList() {
     if (!this.manuallyExpanded) {
       this.fullList = false;
     }
-    const searchResults = this.toolService.findMostUsed();
-    this.updateToolsList(searchResults);
-    this.listExpendable = this.tools.length > MAX_TOOLS;
+    this.toolService.findMostUsed().subscribe({
+      next: searchResults => {
+        this.updateToolsList(searchResults);
+        this.listExpendable = this.tools.length > MAX_TOOLS;
+      },
+      error: error => {
+        console.log('ERROR');
+      }
+    });
   }
 
   public updateFromSearch(searchResults) {

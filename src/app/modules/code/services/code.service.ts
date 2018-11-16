@@ -18,9 +18,9 @@ export class CodeService {
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {
   }
 
-  public highlight(code: string, lang: string) {
-    return Prism.highlight(code.trim(), Prism.languages[lang]);
-  }
+  // public highlight(code: string, lang: string) {
+  //   return Prism.highlight(code.trim(), Prism.languages[lang]);
+  // }
 
   public highlightAll() {
     if (isPlatformBrowser(this.platformId)) {

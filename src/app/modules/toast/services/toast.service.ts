@@ -13,7 +13,7 @@ export interface PushData {
 })
 export class ToastService {
 
-  public toasts = [];
+  public toasts: Toast[] = [];
 
   constructor() {
   }

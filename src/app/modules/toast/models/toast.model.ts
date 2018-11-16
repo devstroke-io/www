@@ -14,7 +14,6 @@ export class Toast {
 
   constructor() {
     this.uuid = uuid();
-    console.log('NEW TOAST', this.uuid);
   }
 
   public start() {

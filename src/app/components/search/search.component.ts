@@ -42,7 +42,7 @@ export class SearchComponent implements OnInit {
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
     // focus search input with F3 or ctrl+f
-    if (this.searchFocus && ((event.key === 'f' && event.ctrlKey === true) || event.key === 'F3')) {
+    if (this.searchFocus && ((event.key === 'f' && event.shiftKey === false && event.ctrlKey === true) || event.key === 'F3')) {
       return this.handleCtrlF(event);
     }
     // if autoFocus disabled of combo ctrl+shift, abort
@@ -59,8 +59,7 @@ export class SearchComponent implements OnInit {
     }
     // only treat printable chars
     if (!this.nonPrintableChars.includes(event.key)) {
-      console.log(event.shiftKey, event.ctrlKey, event.key, event.char, event.charCode, event);
-      this.el.nativeElement.querySelector('input').focus();
+      (<HTMLInputElement>this.el.nativeElement.querySelector('input')).focus();
     }
   }
 
@@ -68,21 +67,27 @@ export class SearchComponent implements OnInit {
   }
 
   public updateSearch(query) {
-    if (query.length >= QUERY_LENGTH_MIN) {
-      this.initialState = false;
-      const searchResults = this.toolService.findTools(query);
-      if (this.showSuggestion) {
-        this.suggestions = searchResults;
+    if (query.length < QUERY_LENGTH_MIN) {
+      if (!this.initialState) {
+        this.resetSearch.emit();
+        this.initialState = true;
+        this.suggestions = [];
       }
-      this.emitSuggestions.emit(searchResults);
       return;
     }
 
-    if (!this.initialState) {
-      this.resetSearch.emit();
-      this.initialState = true;
-      this.suggestions = [];
-    }
+    this.initialState = false;
+    return this.toolService.findTools(query).subscribe({
+      next: results => {
+        if (this.showSuggestion) {
+          this.suggestions = results;
+        }
+        this.emitSuggestions.emit(results);
+      },
+      error: error => {
+        console.log('ERROR');
+      }
+    });
   }
 
   private handleCtrlA(event: KeyboardEvent): void {

@@ -67,26 +67,27 @@ export class SearchComponent implements OnInit {
   }
 
   public updateSearch(query) {
-    if (query.length >= QUERY_LENGTH_MIN) {
-      this.initialState = false;
-      return this.toolService.findTools(query).subscribe({
-        next: results => {
-          if (this.showSuggestion) {
-            this.suggestions = results;
-          }
-          this.emitSuggestions.emit(results);
-        },
-        error: error => {
-          console.log('ERROR');
-        }
-      });
+    if (query.length < QUERY_LENGTH_MIN) {
+      if (!this.initialState) {
+        this.resetSearch.emit();
+        this.initialState = true;
+        this.suggestions = [];
+      }
+      return;
     }
 
-    if (!this.initialState) {
-      this.resetSearch.emit();
-      this.initialState = true;
-      this.suggestions = [];
-    }
+    this.initialState = false;
+    return this.toolService.findTools(query).subscribe({
+      next: results => {
+        if (this.showSuggestion) {
+          this.suggestions = results;
+        }
+        this.emitSuggestions.emit(results);
+      },
+      error: error => {
+        console.log('ERROR');
+      }
+    });
   }
 
   private handleCtrlA(event: KeyboardEvent): void {

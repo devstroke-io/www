@@ -91,9 +91,15 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (!this.manuallyExpanded) {
       this.fullList = false;
     }
-    const searchResults = this.toolService.findMostUsed();
-    this.updateToolsList(searchResults);
-    this.listExpendable = this.tools.length > MAX_TOOLS;
+    this.toolService.findMostUsed().subscribe({
+      next: searchResults => {
+        this.updateToolsList(searchResults);
+        this.listExpendable = this.tools.length > MAX_TOOLS;
+      },
+      error: error => {
+        console.log('ERROR');
+      }
+    });
   }
 
   public updateFromSearch(searchResults) {

@@ -43,6 +43,32 @@ export class ToolService {
     return priority;
   }
 
+  private static _findMostUsedResults(data: Tool[]): { priority: number, tool: Tool }[] {
+    const results: { priority: number, tool: Tool }[] = [];
+    for (const tool of data) {
+      results.push({
+        priority: 10,
+        tool: tool
+      });
+    }
+    results.sort((a: any, b: any) => b.priority - a.priority);
+    return results;
+  }
+
+  private static _findToolsResults(data: Tool[], query: string): { priority: number, tool: Tool }[] {
+    const results: { priority: number, tool: Tool }[] = [],
+      queryWords = query.split(/\s+/).filter(n => n);
+
+    for (const tool of data) {
+      const priority = ToolService.getToolPriority(tool, queryWords);
+      if (priority > 0) {
+        results.push({priority: priority, tool: tool});
+      }
+    }
+    results.sort((a: any, b: any) => b.priority - a.priority);
+    return results;
+  }
+
   public loadTools(forceRefresh: boolean = false): Observable<Tool[]> {
     return new Observable(observer => {
       if (!forceRefresh && this.tools.length !== 0) {
@@ -79,14 +105,7 @@ export class ToolService {
     return new Observable(observer => {
       const subscription = this.loadTools(forceRefresh).subscribe({
         next: (data: Tool[]) => {
-          const results: { priority: number, tool: Tool }[] = [];
-          for (const tool of data) {
-            results.push({
-              priority: 10,
-              tool: tool
-            });
-          }
-          results.sort((a: any, b: any) => b.priority - a.priority);
+          const results = ToolService._findMostUsedResults(data);
           observer.next(results);
           observer.complete();
         },
@@ -106,16 +125,7 @@ export class ToolService {
     return new Observable(observer => {
       const subscription = this.loadTools(forceRefresh).subscribe({
         next: (data: Tool[]) => {
-          const results: { priority: number, tool: Tool }[] = [],
-            queryWords = query.split(/\s+/).filter(n => n);
-
-          for (const tool of data) {
-            const priority = ToolService.getToolPriority(tool, queryWords);
-            if (priority > 0) {
-              results.push({priority: priority, tool: tool});
-            }
-          }
-          results.sort((a: any, b: any) => b.priority - a.priority);
+          const results = ToolService._findToolsResults(data, query);
           observer.next(results);
           observer.complete();
         },

@@ -30,9 +30,13 @@ export class DomMoveService {
 
   public static moveDown(elements: HTMLCollection, currentIndex: number): number {
     const countElementsByLine = DomMoveService.countElementsByLine(elements);
-    let nextIndex = currentIndex + countElementsByLine;
-    if (elements.length - 1 < nextIndex) {
-      nextIndex = nextIndex % countElementsByLine;
+    const countColumns = Math.ceil(elements.length / countElementsByLine);
+    const currentColumn = Math.ceil((currentIndex + 1) / countElementsByLine);
+    const currentIndexNextLine = currentIndex + countElementsByLine;
+    let nextIndex = Math.min(currentIndexNextLine, elements.length - 1);
+    if (currentColumn + 1 > countColumns) {
+      // go top
+      nextIndex = currentIndex % countElementsByLine;
     }
     return nextIndex;
   }

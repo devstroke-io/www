@@ -1,31 +1,19 @@
 # Devstroke
 
-[![Coverage Status](https://coveralls.io/repos/github/devstroke-io/www/badge.svg?branch=)](https://coveralls.io/github/devstroke-io/www?branch=)
+> Project
+>
+> [![GitHub release](https://img.shields.io/github/release/devstroke-io/www.svg)](https://github.com/devstroke-io/www)
+> [![GitHub tag (latest SemVer pre-release)](https://img.shields.io/github/tag-pre/devstroke-io/www.svg)](https://github.com/devstroke-io/www)
+> [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+>
+> Build
+>
+> [![Build Status](https://travis-ci.com/devstroke-io/www.svg?branch=master)](https://travis-ci.org/devstroke-io/www)
+> [![codebeat badge](https://codebeat.co/badges/064a7cb8-1326-486d-996a-b78105c224c1)](https://codebeat.co/projects/github-com-devstroke-io-www-master)
+> [![Coverage Status](https://coveralls.io/repos/github/devstroke-io/www/badge.svg?branch=master)](https://coveralls.io/github/devstroke-io/www?branch=master)
+>
+> Docker
+>
+> [![MicroBadger Layers (tag)](https://img.shields.io/microbadger/layers/devstroke/www/latest.svg)](https://hub.docker.com/r/devstroke/www/)
+> [![MicroBadger Size](https://img.shields.io/microbadger/image-size/devstroke/www.svg)](https://hub.docker.com/r/devstroke/www/)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.2.3.
-
-## Development server
-
-docker-compose -f docker-compose.dev.yml up
-
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).

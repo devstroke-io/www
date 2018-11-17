@@ -1,5 +1,7 @@
 # Devstroke
 
+[![Coverage Status](https://coveralls.io/repos/github/devstroke-io/www/badge.svg?branch=)](https://coveralls.io/github/devstroke-io/www?branch=)
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.2.3.
 
 ## Development server

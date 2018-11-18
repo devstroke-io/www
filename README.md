@@ -16,4 +16,7 @@
 >
 > [![MicroBadger Layers (tag)](https://img.shields.io/microbadger/layers/devstroke/www/latest.svg)](https://hub.docker.com/r/devstroke/www/)
 > [![MicroBadger Size](https://img.shields.io/microbadger/image-size/devstroke/www.svg)](https://hub.docker.com/r/devstroke/www/)
-
+>
+> Discord
+>
+> [![Discord](https://img.shields.io/discord/513663026118000660.svg)](https://discordapp.com/channels/513663026118000660/513663026118000662)

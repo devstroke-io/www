@@ -1,5 +1,5 @@
 # PREPARE STAGE
-FROM node:10-alpine AS prepare-stage
+FROM node:11-alpine AS prepare-stage
 
 ARG ANGULAR_VERSION=v7.0.0-rc.2
 
@@ -10,7 +10,8 @@ WORKDIR /app
 
 COPY package*.json yarn.lock /app/
 
-RUN yarn install
+RUN apk add --no-cache make g++ python \
+    && yarn install
 
 
 # TEST STAGE

@@ -1,4 +1,4 @@
-<div class="main-container">
+<main class="main-container">
   <div class="header">
     <p class="title"><span class="outline">DEV</span>STROKE</p>
   </div>
@@ -11,16 +11,54 @@
       (emitSuggestions)="updateFromSearch($event)"
       (resetSearch)="resetList()"></app-search>
     <div class="content" [class.full]="fullList">
-
       <ng-container *ngIf="tools.length > 0; then showTools; else noTools"></ng-container>
-
     </div>
     <div *ngIf="listExpendable && !fullList" (click)="expandList()">Voir plus</div>
   </div>
-</div>
+</main>
 <div class="authors-container" [ngClass]="environment.webP ? 'web-p' : ''">
   <div class="content">
     <p class="title">WHO ARE <span class="outline">THEY ?</span></p>
+    <div class="authors">
+      <div class="author">
+        <div class="photo damien"></div>
+        <p class="name"><span>Damien</span> Jarry</p>
+        <p class="job">Lead Developper</p>
+        <p class="description">
+          Ninjavascript, from Vanilla to Angular X<br>
+          Happy Labs member on R&D Service at
+          <a href="http://www.mybestpro.com" target="_blank" rel="noopener">MyBestPro</a><br>
+          <br>
+          Works half of the time on hybrid mobile applications, and the rest of time on AI
+          (machine learning, NLP, bot)<br>
+        </p>
+        <div class="contact">
+          <a href="https://www.linkedin.com/in/damien-jarry-a0532826" target="_blank" rel="noopener">
+            <fa-icon [icon]="faLinkedIn" aria-label="LinkedIn Damien JARRY"></fa-icon>
+          </a>
+          <a href="https://github.com/wibimaster" target="_blank" rel="noopener">
+            <fa-icon [icon]="faGithub" aria-label="Github Damien JARRY"></fa-icon>
+          </a>
+        </div>
+      </div>
+      <div class="author">
+        <div class="photo alexia"></div>
+        <p class="name"><span>Alexia</span> Savva</p>
+        <p class="job">Lead HTML Integrator / UX Designer</p>
+        <p class="description">
+          Nunc nec lobortis nisi, vulputate cursus nunc.<br>Aliquam lacinia, sem nec lacinia auctor, diam justo molestie
+          mauris, bibendum pellentesque neque ex vitae justo.
+        </p>
+        <div class="contact">
+          <a href="https://www.linkedin.com/in/alexia-savva-08468411b" target="_blank" rel="noopener">
+            <fa-icon [icon]="faLinkedIn" aria-label="LinkedIn Alexia SAVVA"></fa-icon>
+          </a>
+          <a href="https://www.alexiasavva.fr" target="_blank" rel="noopener">
+            <fa-icon [icon]="faDesktop" aria-label="WebSite Alexia SAVVA"></fa-icon>
+          </a>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 

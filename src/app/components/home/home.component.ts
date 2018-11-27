@@ -4,6 +4,8 @@ import {DomMoveService, ToolService} from '../../services';
 import {environment} from '../../../environments/environment';
 import {Meta} from '@angular/platform-browser';
 import {Subscription} from 'rxjs';
+import {IconDefinition as BrandIconDefinition, faLinkedinIn, faGithub} from '@fortawesome/free-brands-svg-icons';
+import {IconDefinition as SolidIconDefinition, faDesktop} from '@fortawesome/free-solid-svg-icons';
 
 const MAX_TOOLS: number = 8;
 
@@ -46,6 +48,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   public listExpendable: boolean = true;
   /** @var {boolean} [listExpandable=true] True is tool list was expanded by user interaction */
   public manuallyExpanded: boolean = false;
+  public faLinkedIn: BrandIconDefinition = faLinkedinIn;
+  public faGithub: BrandIconDefinition = faGithub;
+  public faDesktop: SolidIconDefinition = faDesktop;
   /** @var {HTMLElement} selectedTool Currently selected tool */
   private selectedTool;
 

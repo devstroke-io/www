@@ -55,7 +55,7 @@
           margin: 5px;
           text-align: center;
           height: 189px;
-          color: #000000;
+          color: #000;
           // background: #ff5722;
           &.selected {
             // background: #ffaaff;
@@ -73,7 +73,7 @@
             padding: 25px;
             box-sizing: content-box;
             // background: #ff9900;
-            background: #ffffff;
+            background: #fff;
             border: 1px #dddddd solid;
           }
           .title {
@@ -91,17 +91,17 @@
   flex: 0 1 auto;
   align-items: center;
   justify-content: center;
-  background: #000000;
+  background: #000;
   min-height: 200px;
   max-height: 300px;
   height: 50vw;
   flex-direction: column;
 
   p {
-    &.sub-title {
+    & ~ p {
       font-family: 'Indie Flower', cursive;
       font-size: 2rem;
-      color: #ffffff;
+      color: #fff;
 
       @media screen and (max-width: 640px),
       print and (max-width: 640px) {
@@ -124,7 +124,7 @@
       }
 
       span.outline {
-        color: #000000;
+        color: #000;
         // @include text-outline(3px, #ff992a);
         -webkit-text-stroke: 0.05em #ff992a;
       }
@@ -164,7 +164,7 @@
         }
 
         span.outline {
-          color: #000000;
+          color: #000;
           // @include text-outline(3px, #ff992a);
           -webkit-text-stroke: 0.05em #ff992a;
         }
@@ -172,54 +172,54 @@
     }
     .authors {
       display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
+      flex-flow: row wrap;
       justify-content: space-around;
       width: 100%;
-    }
-    .author {
-      display: flex;
-      align-items: center;
-      flex-direction: column;
-      width: 320px;
-      .photo {
-        // width: 50%;
-        // padding-top: 50%;
-        width: 200px;
-        height: 200px;
-        margin: 40px 0;
-        background: #fff;
-        border-radius: 50%;
-        &.alexia {
-          background-image: url('../../../assets/images/alexia-savva.jpg');
+
+      > div {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        width: 320px;
+        .photo {
+          // width: 50%;
+          // padding-top: 50%;
+          width: 200px;
+          height: 200px;
+          margin: 40px 0;
+          background: #fff;
+          border-radius: 50%;
+          &.alexia {
+            background-image: url('../../../assets/images/alexia-savva.jpg');
+          }
+          &.damien {
+            background-image: url('../../../assets/images/damien-jarry.jpg');
+          }
         }
-        &.damien {
-          background-image: url('../../../assets/images/damien-jarry.jpg');
+        .name {
+          font-family: 'Open Sans', sans-serif;
+          font-size: 2rem;
+          color: #fff;
+          span {
+            font-weight: 600;
+          }
         }
-      }
-      .name {
-        font-family: 'Open Sans', sans-serif;
-        font-size: 2rem;
-        color: #fff;
-        span {
-          font-weight: 600;
+        .job {
+          color: #ff9900;
+          font-size: 0.9em;
+          text-transform: uppercase;
+          margin: 0 0 50px;
         }
-      }
-      .job {
-        color: #ff9900;
-        font-size: 0.9em;
-        text-transform: uppercase;
-        margin: 0 0 50px 0;
-      }
-      .description {
-        color: #fff;
-        font-size: 1em;
-        font-family: "Open Sans", sans-serif;
-      }
-      .contact {
-        a {
-          font-size: 2em;
-          margin: 0 15px;
+        .description {
+          color: #fff;
+          font-size: 1em;
+          font-family: "Open Sans", sans-serif;
+        }
+        .contact {
+          a {
+            font-size: 2em;
+            margin: 0 15px;
+          }
         }
       }
     }

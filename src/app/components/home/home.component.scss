@@ -19,7 +19,7 @@
       width: 95%;
       max-width: 740px;
       align-content: center;
-      margin-top: -33px;//-40px;
+      margin-top: -33px; //-40px;
     }
 
     .content {
@@ -84,6 +84,7 @@
     }
   }
 }
+
 .header {
   // flex: 1 1 200px;
   display: flex;
@@ -94,12 +95,28 @@
   min-height: 200px;
   max-height: 300px;
   height: 50vw;
+  flex-direction: column;
 
   p {
+    &.sub-title {
+      font-family: 'Indie Flower', cursive;
+      font-size: 2rem;
+      color: #ffffff;
+
+      @media screen and (max-width: 640px),
+      print and (max-width: 640px) {
+        font-size: 5vw;
+      }
+
+      > .bold {
+        color: #ff992a;
+      }
+    }
     &.title {
       font-size: 6em;
       color: #ff992a;
       font-family: 'Happy', sans-serif;
+      margin-bottom: 0;
 
       @media screen and (max-width: 793px),
       print and (max-width: 793px) {

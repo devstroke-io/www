@@ -44,6 +44,17 @@ pre[class*="language-"].line-numbers > code {
   font-weight: 700;
 }
 
+@font-face {
+  font-family: 'Indie Flower';
+  font-display: block;
+  src: local('Indie Flower'),
+  local('IndieFlower'),
+  url('../assets/fonts/IndieFlower-Regular.woff2') format('woff2'),
+  url('../assets/fonts/IndieFlower-Regular.woff') format('woff');
+  font-style: normal;
+  font-weight: 400;
+}
+
 html, body {
   height: 100%;
   // background: #2a2e31;

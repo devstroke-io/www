@@ -1,5 +1,5 @@
 import {Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output} from '@angular/core';
-import {IconDefinition, faSearch} from '@fortawesome/free-solid-svg-icons';
+import {IconDefinition as SolidIconDefinition, faSearch} from '@fortawesome/free-solid-svg-icons';
 import {ToolService} from '../../services';
 
 const QUERY_LENGTH_MIN = 3;
@@ -11,7 +11,7 @@ const QUERY_LENGTH_MIN = 3;
 })
 export class SearchComponent implements OnInit {
 
-  public faSearch: IconDefinition = faSearch;
+  public faSearch: SolidIconDefinition = faSearch;
   public suggestions: any[] = [];
   @Input() showLogo: boolean = false;
   @Input() showSuggestion: boolean = false;

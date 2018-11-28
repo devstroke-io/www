@@ -1,6 +1,7 @@
-<div class="main-container">
+<main class="main-container">
   <div class="header">
     <p class="title"><span class="outline">DEV</span>STROKE</p>
+    <p>Your <span class="bold">sidekick</span> to beat the code</p>
   </div>
   <div class="applications">
     <app-search
@@ -11,16 +12,60 @@
       (emitSuggestions)="updateFromSearch($event)"
       (resetSearch)="resetList()"></app-search>
     <div class="content" [class.full]="fullList">
-
       <ng-container *ngIf="tools.length > 0; then showTools; else noTools"></ng-container>
-
     </div>
     <div *ngIf="listExpendable && !fullList" (click)="expandList()">Voir plus</div>
   </div>
-</div>
+</main>
 <div class="authors-container" [ngClass]="environment.webP ? 'web-p' : ''">
   <div class="content">
     <p class="title">WHO ARE <span class="outline">THEY ?</span></p>
+    <div class="authors">
+      <div>
+        <div class="photo damien"></div>
+        <p class="name"><span>Damien</span> Jarry</p>
+        <p class="job">Lead Developper</p>
+        <p class="description">
+          Ninjavascript, from Vanilla to Angular X<br>
+          Happy Labs member on R&D Service at
+          <a href="http://www.mybestpro.com" target="_blank" rel="noopener">MyBestPro</a><br>
+          <br>
+          Works half of the time on hybrid mobile applications, and the rest of time on AI
+          (machine learning, NLP, bot)<br>
+          <br>
+          Occasionally tries to kill some people.<br>
+        </p>
+        <div class="contact">
+          <a href="https://www.linkedin.com/in/damien-jarry-a0532826" target="_blank" rel="noopener">
+            <fa-icon [icon]="faLinkedIn" aria-label="LinkedIn Damien JARRY"></fa-icon>
+          </a>
+          <a href="https://github.com/wibimaster" target="_blank" rel="noopener">
+            <fa-icon [icon]="faGithub" aria-label="Github Damien JARRY"></fa-icon>
+          </a>
+        </div>
+      </div>
+      <div>
+        <div class="photo alexia"></div>
+        <p class="name"><span>Alexia</span> Savva</p>
+        <p class="job">Lead HTML Integrator / UX Designer</p>
+        <p class="description">
+          Self-proclaimed "Integraphic artist"<br>
+          Works as UX-Designer at <a href="http://www.redfabriq.com" target="_blank" rel="noopener">RedFabriQ</a><br>
+          <br>
+          Loves playing Tetris, and cuts PSD like Machete. But sometimes, does coloring too.<br>
+          <br>
+          Occasionally tries to save the world.<br>
+        </p>
+        <div class="contact">
+          <a href="https://www.linkedin.com/in/alexia-savva-08468411b" target="_blank" rel="noopener">
+            <fa-icon [icon]="faLinkedIn" aria-label="LinkedIn Alexia SAVVA"></fa-icon>
+          </a>
+          <a href="https://www.alexiasavva.fr" target="_blank" rel="noopener">
+            <fa-icon [icon]="faDesktop" aria-label="WebSite Alexia SAVVA"></fa-icon>
+          </a>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
